@@ -37,3 +37,4 @@ AM_CFLAGS = -DPG_PPU
 
 CLEANFILES = grexec.f
 
+EXTRA_DIST = makegrexec.pl

@@ -18,8 +18,11 @@ AC_CONFIG_SRCDIR([src/pgbeg.f])
 dnl    Find required versions of the programs we need for configuration
 AC_PROG_CC
 AC_PROG_F77
+AC_PROG_INSTALL
+AC_PROG_MKDIR_P
 AM_PROG_AR
 AC_PROG_LIBTOOL
+
 AC_HEADER_STDC
 AC_PATH_XTRA
 AC_CHECK_HEADERS(values.h)

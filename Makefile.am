@@ -39,4 +39,4 @@ libpgplot_la_LIBADD =					\
 pkgconfigdatadir = $(libdir)/pkgconfig
 pkgconfigdata_DATA = pgplot.pc cpgplot.pc
 
-DISTCLEAN = pgplot.pc cpgplot.pc
+DISTCLEANFILES = pgplot.pc cpgplot.pc

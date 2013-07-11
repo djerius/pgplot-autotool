@@ -66,4 +66,4 @@ grgfil.f : grgfil.f.in
 
 
 EXTRA_DIST = grgfil.f.in
-DISTCLEAN = grgfil.f
+DISTCLEANFILES = grgfil.f
