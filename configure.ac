@@ -64,13 +64,50 @@ CPPFLAGS="$CPPFLAGS $X_CFLAGS -I/usr/X11/include"
 
 
 dnl   Add the png driver if the PNG header and library are available.
-AC_CHECK_HEADER(png.h,
-                AC_CHECK_LIB(png, png_create_write_struct,
-                             [LIBS="$LIBS -lpng";common_built_drivers="$common_built_drivers pndriv.lo"],
-                             [AC_MSG_WARN(PNG libraries not found)],
-                             [-lz]))
+dnl   On some systems both png 1.2.x and png 1.5+ are installed.  They
+dnl   are not ABI compatible, and on some systems it's possible to pull
+dnl   in the header for one and libs for the other.  don't ask...
 
-BUILT_DRIVERS="$common_built_drivers xwdriv.lo"
+dnl   Try to use the pkg-config files if possible, as they
+dnl   explicitly direct us to the version specific headers and
+dnl   libraries.  If that doesn't work, try to find them in the
+dnl   standard places and pray.
+
+have_png=no
+PKG_CHECK_MODULES(
+   [PNG],
+   [libpng],
+   [have_png=yes],
+   [AC_CHECK_HEADER(
+        [png.h],
+	[AC_CHECK_LIB([png],[png_create_write_struct],
+	    [PNG_LIBS="-lpng -lz"
+	     have_png=yes
+	    ],
+	    [AC_MSG_WARN(PNG libraries not found)],
+	    [-lz]
+	 )
+        ]
+     )
+    ]
+)
+
+dnl   Add required flags and drivers if we've got libpng.  add png
+dnl   to our own pkg-config files' requirements
+AS_IF([test $have_png = yes],
+      [ drivers="$drivers pndriv.lo"
+	PKG_CONFIG_REQUIRES="${PKG_CONFIG_REQUIRES}[,]libpng"
+	LIBS="$LIBS $PNG_LIBS"
+	CPPFLAGS="$CPPFLAGS $PNG_CFLAGS"
+      ]
+)
+
+
+dnl   clean up pkg-config requires line
+PKG_CONFIG_REQUIRES=`echo $PKG_CONFIG_REQUIRES | ${ac_cv_path_SED} "s/^,//"`
+AC_SUBST(PKG_CONFIG_REQUIRES)
+
+BUILT_DRIVERS="$drivers xwdriv.lo"
 
 AC_SUBST(BUILT_DRIVERS)
 

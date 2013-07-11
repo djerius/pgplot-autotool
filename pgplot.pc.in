@@ -7,5 +7,6 @@ version=@PACKAGE_VERSION@
 Name: PGplot
 Description: Fortran 2D Graphics library
 Version: ${version}
+Requires: @PKG_CONFIG_REQUIRES@
 Libs: -L${libdir} -Wl,-rpath,${libdir} -lpgplot -lnsl -lX11
 Cflags: -I${includedir}
