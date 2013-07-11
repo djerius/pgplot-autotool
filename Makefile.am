@@ -25,10 +25,12 @@ lib_LTLIBRARIES = libpgplot.la
 # the libraries contain Fortran source, and so must be assembled into
 # a library using the F77 or FC languages, rather than the C linker
 # (this matters on OSX, since the OSX linker has a big downer on
-# common blocks, and needs the Fortran voodoo to make it happy).  In
-# order to make this happen, we list a dummy Fortran file as a
-# source.  This is enough to tell automake to use Fortran in the link.
-libpgplot_la_SOURCES = dummy_fortran.f
+# common blocks, and needs the Fortran voodoo to make it happy).
+
+# override (GNU, not OSX) libtool tag to use F77 to link
+libpgplot_la_LIBTOOLFLAGS = --tag=F77
+
+libpgplot_la_SOURCES =
 libpgplot_la_LIBADD =					\
 	$(builddir)/src/libpgplot_base.la		\
 	$(builddir)/sys/libpgplot_sys.la		\

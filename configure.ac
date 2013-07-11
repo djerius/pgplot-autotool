@@ -12,7 +12,7 @@ AM_INIT_AUTOMAKE([1.14 -Wall foreign serial-tests ])
 
 dnl    Sanity-check: name a file in the source directory -- if this
 dnl    isn't found then configure will complain
-AC_CONFIG_SRCDIR([dummy_fortran.f])
+AC_CONFIG_SRCDIR([src/pgbeg.f])
 
 
 dnl    Find required versions of the programs we need for configuration
