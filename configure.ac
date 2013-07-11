@@ -1,16 +1,14 @@
 dnl    Process this file with autoconf to produce a configure script
-AC_REVISION($Revision$)
+AC_REVISION(0.99)
 
 dnl    Initialisation: package name and version number
-dnl    Note that for GKS the RAL version number is 1.37 but
-dnl    Starlink does not increment that version. Rather than use
-dnl    non-standard nomenclature use the patch level for starlink patching.
-AC_INIT(pgplot, 5.2.2-2, starlink@jiscmail.ac.uk)
+AC_INIT(pgplot, 5.2.2-2, djerius@cpan.org)
 
-dnl    Require autoconf-2.50 at least
-AC_PREREQ(2.50)
-dnl    Require Starlink automake
-AM_INIT_AUTOMAKE(1.8.2-starlink)
+AC_PREREQ(2.69)
+AC_CONFIG_MACRO_DIR([m4])
+
+# cannot run parallel tests as all tests require keyboard input
+AM_INIT_AUTOMAKE([1.14 -Wall foreign serial-tests ])
 
 dnl    Sanity-check: name a file in the source directory -- if this
 dnl    isn't found then configure will complain
@@ -19,10 +17,9 @@ AC_CONFIG_SRCDIR([dummy_fortran.f])
 
 dnl    Find required versions of the programs we need for configuration
 AC_PROG_CC
-AC_PROG_FC
-AC_PROG_FPP
+AC_PROG_F77
+AM_PROG_AR
 AC_PROG_LIBTOOL
-AC_C_BIGENDIAN
 AC_HEADER_STDC
 AC_PATH_XTRA
 AC_CHECK_HEADERS(values.h)
@@ -31,8 +28,9 @@ dnl    %VAL is used for some memory handling. Under 64bit pointers are
 dnl    8 bytes. Need to know this.
 AC_CHECK_SIZEOF([void *])
 
-dnl    Other options here, such as
-AC_FC_LIBRARY_LDFLAGS
+dnl    get the flags required to link other languages against fortran
+dnl    using their compilers, not fortran
+AC_F77_LIBRARY_LDFLAGS
 
 dnl   These are the driver files that will actually be built.
 dnl   In true autoconf style, we do not attempt to generate this list

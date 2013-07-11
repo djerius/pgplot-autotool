@@ -31,7 +31,7 @@ TESTS = cpgdemo
 check_PROGRAMS = cpgdemo
 cpgdemo_SOURCES = $(DEMO_ROUTINES)
 DEMO_ROUTINES = cpgdemo.c
-cpgdemo_LDADD = libcpgplot.la $(top_builddir)/libpgplot.la $(PGXLIBS) $(PGPNGLIBS) @FCLIBS@ 
+cpgdemo_LDADD = libcpgplot.la $(top_builddir)/libpgplot.la $(PGXLIBS) $(PGPNGLIBS) @FLIBS@ 
 
 CLEANFILES = $(C_WRAPPERS) $(PUBLIC_INCLUDES) pgbind_prototypes
 

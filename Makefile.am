@@ -1,5 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 
+ACLOCAL_AMFLAGS = -I m4
+
 SUBDIRS = src sys drivers fonts cpg pgdispd examples
 
 ## In automake terminology, this is the `bin' prefix to the `SCRIPTS' primary.
