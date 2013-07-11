@@ -146,5 +146,10 @@ dnl    If you wish to configure extra files, you can add them to this
 dnl    declaration.
 AC_CONFIG_FILES([Makefile cpg/Makefile fonts/Makefile pgdispd/Makefile src/Makefile sys/Makefile examples/Makefile drivers/Makefile drivers/xathena/Makefile drivers/xtk/Makefile drivers/ptk/Makefile drivers/xmotif/Makefile])
 
+dnl    pkg-config files
+AC_CONFIG_FILES([pgplot.pc
+	         cpgplot.pc
+		 ])
+
 dnl    This is the bit that does the actual work
 AC_OUTPUT

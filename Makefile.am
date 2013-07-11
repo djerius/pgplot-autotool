@@ -36,3 +36,7 @@ libpgplot_la_LIBADD =					\
 	$(builddir)/sys/libpgplot_sys.la		\
 	$(builddir)/drivers/libpgplot_drivers.la
 
+pkgconfigdatadir = $(libdir)/pkgconfig
+pkgconfigdata_DATA = pgplot.pc cpgplot.pc
+
+DISTCLEAN = pgplot.pc cpgplot.pc

@@ -1,0 +1,11 @@
+prefix=/proj/axaf/ots
+exec_prefix=/proj/axaf/ots/x86_64-linux_debian-6
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include/pgplot
+version=@PACKAGE_VERSION@
+
+Name: PGplot
+Description: Fortran 2D Graphics library
+Version: ${version}
+Libs: -L${libdir} -Wl,-rpath,${libdir} -lpgplot -lnsl -lX11
+Cflags: -I${includedir}

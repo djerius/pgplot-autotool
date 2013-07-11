@@ -1,0 +1,10 @@
+prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include/pgplot
+version=@PACKAGE_VERSION@
+
+Name: PGplot
+Description: C 2D Graphics library
+Version: ${version}
+Libs: -L${libdir} -Wl,-rpath,${libdir} -lcpgplot -lpgplot -lnsl -lX11 @FLIBS@
+Cflags: -I${includedir}
