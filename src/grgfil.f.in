@@ -26,7 +26,7 @@ C--
 C  2-Dec-1994 - new routine [TJP].
 C-----------------------------------------------------------------------
       CHARACTER*(*) DEFDIR, DEFFNT, DEFRGB
-      PARAMETER  (DEFDIR='/usr/local/pgplot/')
+      PARAMETER  (DEFDIR='@pkg_libexecdir@')
       PARAMETER  (DEFFNT='grfont.dat')
       PARAMETER  (DEFRGB='rgb.txt')
       CHARACTER*255 FF

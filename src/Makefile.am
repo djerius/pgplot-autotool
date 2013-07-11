@@ -52,3 +52,18 @@ pgvsiz.f pgvstand.f pgvstd.f pgvw.f pgwedg.f pgwindow.f pgwnad.f
 
 
 PRIVATE_INCLUDES = grpckg1.inc  pgplot.inc
+
+edit = $(SED) \
+             -e 's|[@]pkg_libexecdir[@]|$(libexecdir)/$(PACKAGE)|g'
+
+
+grgfil.f : grgfil.f.in
+	rm -f $@ $@.tmp
+	srcdir=; \
+	test -f ./$@.in || srcdir=$(srcdir)/; \
+	$(edit) $${srcdir}$@.in >$@.tmp
+	mv $@.tmp $@
+
+
+EXTRA_DIST = grgfil.f.in
+DISTCLEAN = grgfil.f
