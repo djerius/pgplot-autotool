@@ -24,4 +24,8 @@ uninstall-hook :
 
 EXTRA_DIST = grfont.txt
 
+# grfont.dat is needed to run the tests, so build it before
+# installation
+BUILT_SOURCES = grfont.dat
+
 CLEANFILES = grfont.dat
