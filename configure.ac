@@ -1,8 +1,5 @@
-dnl    Process this file with autoconf to produce a configure script
-AC_REVISION(0.99)
-
 dnl    Initialisation: package name and version number
-AC_INIT(pgplot, 5.2.2-2, djerius@cpan.org)
+AC_INIT(pgplot, 5.2.2-3, djerius@cpan.org)
 
 AC_PREREQ(2.69)
 AC_CONFIG_MACRO_DIR([m4])
