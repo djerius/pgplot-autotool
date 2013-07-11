@@ -16,7 +16,7 @@ grfont.dat: grfont.txt pgpack
 
 install-exec-hook : grfont.dat
 	$(MKDIR_P) $(DESTDIR)$(pkg_libexecdir)
-	$(INSTALL_DATA) -t $(DESTDIR)$(pkg_libexecdir) grfont.dat
+	$(INSTALL_DATA) grfont.dat $(DESTDIR)$(pkg_libexecdir)/grfont.dat
 
 uninstall-hook :
 	rm -f $(DESTDIR)/$(pkg_libexecdir)/grfont.dat

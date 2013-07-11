@@ -13,7 +13,7 @@ EXTRA_DIST = rgb.txt
 pkg_libexecdir = $(libexecdir)/$(PACKAGE)
 install-exec-hook :
 	$(MKDIR_P) $(DESTDIR)$(pkg_libexecdir)
-	$(INSTALL_DATA) -t $(DESTDIR)$(pkg_libexecdir) $(srcdir)/rgb.txt
+	$(INSTALL_DATA) $(srcdir)/rgb.txt $(DESTDIR)$(pkg_libexecdir)/rgb.txt
 
 uninstall-local :
 	rm -f $(DESTDIR)$(pkg_libexecdir)/rgb.txt
