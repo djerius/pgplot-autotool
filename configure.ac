@@ -116,9 +116,9 @@ AC_SUBST(BUILT_DRIVERS)
 
 dnl    Stuff required for xathena
 have_athena="yes"
-AC_ARG_WITH([athena], 
-             AC_HELP_STRING([--with-athena[=path]],
-             [use Xaw3d (default location /usr/X11R6/)]),
+AC_ARG_WITH([athena],
+	     AC_HELP_STRING([--with-athena[=path]],
+	     [use Xaw3d (default location /usr/X11R6/)]),
   [if test "$withval" = "yes"; then
     # Default place
     LIBS="$LIBS $X_LIBS"
@@ -133,11 +133,11 @@ AC_ARG_WITH([athena],
     CPPFLAGS="$CPPFLAGS -I$XAINCDIR"
   fi])
 
-dnl    Hack and slash for the Mac. This should only add goodness to 
-dnl    non-Mac builds in the case where whoever did their filesystem 
+dnl    Hack and slash for the Mac. This should only add goodness to
+dnl    non-Mac builds in the case where whoever did their filesystem
 dnl    have done something as wierd as Apple.
 if test "$have_athena" = "yes"; then
-  AC_CHECK_HEADER([X11/Xaw3d/Simple.h], have_xa3dheader=yes ) 
+  AC_CHECK_HEADER([X11/Xaw3d/Simple.h], have_xa3dheader=yes )
   AC_CHECK_LIB(Xaw3d, XawInitializeWidgetSet, have_xa3dlib=yes )
 else
   have_xa3dheader="no"
@@ -154,8 +154,8 @@ AM_CONDITIONAL( HAVE_TK, false )
 dnl    xmotif
 have_motif="yes"
 AC_ARG_WITH([motif],
-             AC_HELP_STRING([--with-motif[=path]],
-             [use XMotif (default location /usr/X11R6)]),
+	     AC_HELP_STRING([--with-motif[=path]],
+	     [use XMotif (default location /usr/X11R6)]),
   [if test "$withval" = "yes"; then
     # Default place
     LIBS="$LIBS $X_LIBS"
@@ -171,7 +171,7 @@ AC_ARG_WITH([motif],
   fi])
 
 if test "$have_motif" = "yes"; then
-   AC_CHECK_HEADER([Xm/XmP.h], have_xmheader=yes ) 
+   AC_CHECK_HEADER([Xm/XmP.h], have_xmheader=yes )
    AC_CHECK_LIB(Xm, XmScrolledWindowSetAreas, have_xmlib=yes )
 else
    have_xmheader="no"
@@ -184,7 +184,19 @@ AM_CONDITIONAL( HAVE_XMOTIF, \
 
 dnl    If you wish to configure extra files, you can add them to this
 dnl    declaration.
-AC_CONFIG_FILES([Makefile cpg/Makefile fonts/Makefile pgdispd/Makefile src/Makefile sys/Makefile examples/Makefile drivers/Makefile drivers/xathena/Makefile drivers/xtk/Makefile drivers/ptk/Makefile drivers/xmotif/Makefile])
+AC_CONFIG_FILES([Makefile
+		 cpg/Makefile
+		 fonts/Makefile
+		 pgdispd/Makefile
+		 src/Makefile
+		 sys/Makefile
+		 examples/Makefile
+		 drivers/Makefile
+		 drivers/xathena/Makefile
+		 drivers/xtk/Makefile
+		 drivers/ptk/Makefile
+		 drivers/xmotif/Makefile
+		])
 
 dnl    pkg-config files
 AC_CONFIG_FILES([pgplot.pc

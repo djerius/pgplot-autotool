@@ -17,7 +17,7 @@ libpgplot_sys_la_SOURCES = $(F_ROUTINES) $(C_ROUTINES) \
 NATIVE_PGPLOT_ROUTINES = grgcom.f
 
 F_ROUTINES = grflun.f grgenv.f grglun.f grgmsg.f grlgtr.f \
-groptx.f grsy00.f grtrml.f grtter.f
+	     groptx.f grsy00.f grtrml.f grtter.f
 
 
 C_ROUTINES = grdate.c  grfileio.c  grgetc.c  grgmem.c  grtermio.c  gruser.c

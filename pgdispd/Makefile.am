@@ -1,8 +1,5 @@
 ## Process this file with automake to produce Makefile.in
 
-# grfont.dat and rgb.txt are not actually programs but they still need to
-# go into bin/
-
 bin_PROGRAMS = pgdisp
 pgdisp_SOURCES = $(C_ROUTINES)
 pgdisp_LDADD = $(X_LIBS) $(X_EXTRA_LIBS) $(X_PRE_LIBS) -lX11
