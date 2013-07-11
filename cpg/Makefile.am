@@ -35,6 +35,10 @@ PGPNGLIBS = -lpng -lz
 
 
 TESTS = cpgdemo
+TESTS_ENVIRONMENT= 						\
+	export PGPLOT_FONT=$(top_builddir)/fonts/grfont.dat;	\
+	export PGPLOT_RGB=$(top_srcdir)/rgb.txt ;
+
 check_PROGRAMS = cpgdemo
 cpgdemo_SOURCES = $(DEMO_ROUTINES)
 DEMO_ROUTINES = cpgdemo.c

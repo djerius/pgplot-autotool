@@ -4,6 +4,10 @@ TESTS = pgdemo1 pgdemo2 pgdemo3 pgdemo4 pgdemo5 pgdemo6 pgdemo7	      \
 pgdemo8 pgdemo9 pgdemo10 pgdemo11 pgdemo12 pgdemo13 pgdemo14 pgdemo15 \
 pgdemo16 pgdemo17
 
+TESTS_ENVIRONMENT= 						\
+	export PGPLOT_FONT=$(top_builddir)/fonts/grfont.dat;	\
+	export PGPLOT_RGB=$(top_srcdir)/rgb.txt ;
+
 check_PROGRAMS = pgdemo1 pgdemo2 pgdemo3 pgdemo4 pgdemo5 pgdemo6     \
 pgdemo7 pgdemo8 pgdemo9 pgdemo10 pgdemo11 pgdemo12 pgdemo13 pgdemo14 \
 pgdemo15 pgdemo16 pgdemo17
