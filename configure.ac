@@ -16,8 +16,6 @@ dnl    Sanity-check: name a file in the source directory -- if this
 dnl    isn't found then configure will complain
 AC_CONFIG_SRCDIR([dummy_fortran.f])
 
-dnl    Include defaults for Starlink configurations
-STAR_DEFAULTS
 
 dnl    Find required versions of the programs we need for configuration
 AC_PROG_CC
@@ -35,14 +33,10 @@ AC_CHECK_SIZEOF([void *])
 
 dnl    Other options here, such as
 AC_FC_LIBRARY_LDFLAGS
-STAR_CNF_COMPATIBLE_SYMBOLS
 
 dnl   These are the driver files that will actually be built.
 dnl   In true autoconf style, we do not attempt to generate this list
 dnl   automatically (see the automake manual's FAQ for justification).
-dnl
-dnl   The common_built_drivers are common to the standard set and the
-dnl   Starlink set.
 
 common_built_drivers="exdriv.lo pgdriv.lo cadriv.lo hgdriv.lo lxdriv.lo ppdriv.lo vtdriv.lo gidriv.lo hidriv.lo psdriv.lo ttdriv.lo cwdriv.lo gldriv.lo nedriv.lo wddriv.lo hpdriv.lo lsdriv.lo nudriv.lo qmdriv.lo vadriv.lo cgdriv.lo nexsup.lo rvdriv.lo x2driv.lo xmdriv.lo figdisp_comm.lo pgxwin.lo tkdriv.lo pkdriv.lo xadriv.lo"
 
@@ -65,10 +59,8 @@ AC_CHECK_HEADER(png.h,
                              [-lz]))
 
 BUILT_DRIVERS="$common_built_drivers xwdriv.lo"
-STAR_BUILT_DRIVERS="$common_built_drivers star_xwdriv.lo gwmdriv.lo"
 
 AC_SUBST(BUILT_DRIVERS)
-AC_SUBST(STAR_BUILT_DRIVERS)
 
 dnl    Stuff required for xathena
 have_athena="yes"
@@ -103,12 +95,9 @@ fi
 AM_CONDITIONAL( HAVE_XATHENA, \
     [test "$have_xa3dheader" = "yes" && test "$have_xa3dlib" = "yes" ])
 
-dnl    xtk & ptk, use the Starlink version of Tcl/Tk, so don't need to check
-dnl    for it (declared as a build dependency). To keep the various 
-dnl    sub-components happy we need to define HAVE_TK as a conditional.
-dnl    This will always be true.
-STAR_PATH_TCLTK(8.5,[tk])
-AM_CONDITIONAL( HAVE_TK, : )
+dnl    tcl shipes with a tcl.m4 autoconf macro library.  This should be
+dnl    used to set up the ptk and xtk drivers. until then, disable TK
+AM_CONDITIONAL( HAVE_TK, false )
 
 dnl    xmotif
 have_motif="yes"
@@ -140,16 +129,10 @@ fi
 AM_CONDITIONAL( HAVE_XMOTIF, \
    [test "$have_xmheader" = "yes" && test "$have_xmlib" = "yes"] )
 
-dnl    Declare the build and use dependencies for this package
-STAR_DECLARE_DEPENDENCIES([build], [cnf gwm psx mers chr tcl tk])
-STAR_DECLARE_DEPENDENCIES([link],  [gwm cnf psx mers chr tcl tk])
-
 
 dnl    If you wish to configure extra files, you can add them to this
 dnl    declaration.
-AC_CONFIG_FILES([Makefile component.xml cpg/Makefile fonts/Makefile pgdispd/Makefile src/Makefile sys/Makefile examples/Makefile drivers/Makefile drivers/xathena/Makefile drivers/xtk/Makefile drivers/ptk/Makefile drivers/xmotif/Makefile])
-AC_CONFIG_FILES(pgplot_link, [chmod +x pgplot_link])
-AC_CONFIG_FILES(pgplot_link_adam, [chmod +x pgplot_link_adam])
+AC_CONFIG_FILES([Makefile cpg/Makefile fonts/Makefile pgdispd/Makefile src/Makefile sys/Makefile examples/Makefile drivers/Makefile drivers/xathena/Makefile drivers/xtk/Makefile drivers/ptk/Makefile drivers/xmotif/Makefile])
 
 dnl    This is the bit that does the actual work
 AC_OUTPUT
