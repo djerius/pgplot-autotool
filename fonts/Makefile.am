@@ -10,7 +10,7 @@ pgpack_SOURCES = pgpack.f
 bin_SCRIPTS = grfont.dat
 dist_noinst_DATA = grfont.txt
 
-grfont.dat: grfont.txt pgpack.f
+grfont.dat: grfont.txt pgpack
 	-rm -f grfont.dat
 	./pgpack <grfont.txt
 

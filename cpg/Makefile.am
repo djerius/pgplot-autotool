@@ -11,7 +11,12 @@ PGBIND_ROUTINES = pgbind.c
 C_WRAPPERS = cpgplot.c
 PUBLIC_INCLUDES = cpgplot.h
 
-cpgplot.c cpgplot.h: pgbind
+# cpgplot.c and cpgplot.h are both built by pgbind in a single invocation.
+# this gets parallel makes to work, hopefully on all makes. 
+
+cpgplot.c cpgplot.h: pgbind_prototypes
+
+pgbind_prototypes : pgbind
 	grep -h '^C%' $(top_srcdir)/src/pg*.f > ./pgbind_prototypes
 	./pgbind bsd -h -w pgbind_prototypes
 
