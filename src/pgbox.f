@@ -231,8 +231,6 @@ C
           NSUBX = MAX(NXSUB,1)
       END IF
       IF (.NOT.XOPTS) NSUBX = 1
-      NP = INT(LOG10(ABS(XINT)))-4
-      NV = NINT(XINT/10.**NP)
       XINT2 = XINT/NSUBX
       XOPTLS = XOPTL .AND. XOPTS .AND. (ABS(XTRC-XBLC).LT.2.0)
 C
@@ -313,6 +311,20 @@ C Write X labels.
 C
       IF (XOPTN .OR. XOPTM) THEN
           CALL PGBOX1(XBLC, XTRC, XINT, I1, I2)
+          
+          NP = INT(LOG10(ABS(XINT)))-4
+          NV = NINT(XINT/10.**NP)
+
+C
+C         NV * I1 may be too large for an integer; decrease NV until
+C         it fits
+C
+ 85       IF ( (I1*NV)/NV.NE.I1 ) THEN
+             NP = NP + 1
+             NV = NINT(XINT/10.**NP)
+             GOTO 85
+          END IF
+
           DO 90 I=I1,I2
               XC = (I*XINT-XBLC)/(XTRC-XBLC)
               IF (XOPTL) THEN
@@ -372,8 +384,6 @@ C
           NSUBY = MAX(NYSUB,1)
       END IF
       IF (.NOT.YOPTS) NSUBY = 1
-      NP = INT(LOG10(ABS(YINT)))-4
-      NV = NINT(YINT/10.**NP)
       YINT2 = YINT/NSUBY
       YOPTLS = YOPTL .AND. YOPTS .AND. (ABS(YTRC-YBLC).LT.2.0)
 C
@@ -454,6 +464,19 @@ C Write Y labels.
 C
       IF (YOPTN.OR.YOPTM) THEN
           CALL PGBOX1(YBLC, YTRC, YINT, I1, I2)
+          NP = INT(LOG10(ABS(YINT)))-4
+          NV = NINT(YINT/10.**NP)
+
+C
+C         NV * I1 may be too large for an integer; decrease NV until
+C         it fits
+C
+ 175      IF ( (I1*NV)/NV.NE.I1 ) THEN
+             NP = NP + 1
+             NV = NINT(YINT/10.**NP)
+             GOTO 175
+          END IF
+
           DO 180 I=I1,I2
               YC = (I*YINT-YBLC)/(YTRC-YBLC)
               IF (YOPTL) THEN
