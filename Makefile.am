@@ -4,9 +4,19 @@ ACLOCAL_AMFLAGS = -I m4
 
 SUBDIRS = src sys drivers fonts cpg pgdispd examples
 
-## In automake terminology, this is the `bin' prefix to the `SCRIPTS' primary.
+# rgb.txt is architecture independent, so usually would be installed
+# into $pkgdatadir, but PGPLOT prefers a single prefix for both
+# fonts.dat and rgb.txt
 
-dist_bin_SCRIPTS = rgb.txt
+EXTRA_DIST = rgb.txt
+
+pkg_libexecdir = $(libexecdir)/$(PACKAGE)
+install-exec-hook :
+	$(MKDIR_P) $(DESTDIR)$(pkg_libexecdir)
+	$(INSTALL_DATA) -t $(DESTDIR)$(pkg_libexecdir) $(srcdir)/rgb.txt
+
+uninstall-local :
+	rm -f $(DESTDIR)$(pkg_libexecdir)/rgb.txt
 
 # Made up from sublibs
 lib_LTLIBRARIES = libpgplot.la
