@@ -17,8 +17,14 @@ lib_LTLIBRARIES = libpgplot.la libpgplot_star.la
 # order to make this happen, we list a dummy Fortran file as a
 # source.  This is enough to tell automake to use Fortran in the link.
 libpgplot_la_SOURCES = dummy_fortran.f
-libpgplot_la_LIBADD = src/libpgplot_base.la sys/libpgplot_sys.la drivers/libpgplot_drivers.la
+libpgplot_la_LIBADD =					\
+	$(builddir)/src/libpgplot_base.la		\
+	$(builddir)/sys/libpgplot_sys.la		\
+	$(builddir)/drivers/libpgplot_drivers.la
 
 libpgplot_star_la_SOURCES = dummy_fortran.f
-libpgplot_star_la_LIBADD = src/libpgplot_star_base.la sys/libpgplot_star_sys.la drivers/libpgplot_star_drivers.la
+libpgplot_star_la_LIBADD = 				\
+	$(builddir)/src/libpgplot_star_base.la		\
+	$(builddir)/sys/libpgplot_star_sys.la		\
+	$(builddir)/drivers/libpgplot_star_drivers.la
 

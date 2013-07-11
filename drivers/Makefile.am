@@ -26,10 +26,10 @@ dist_noinst_HEADERS = commands.h defines.h  pgxwin.h
 dist_noinst_SCRIPTS = makegrexec.pl
 
 grexec.f: $(BUILT_DRIVER_ROUTINES) makegrexec.pl
-	./makegrexec.pl $(BUILT_DRIVER_ROUTINES)
+	$(srcdir)/makegrexec.pl $(BUILT_DRIVER_ROUTINES)
 
 star_grexec.f: $(STAR_BUILT_DRIVER_ROUTINES) makegrexec.pl
-	./makegrexec.pl -o star_grexec.f $(STAR_BUILT_DRIVER_ROUTINES)
+	$(srcdir)/makegrexec.pl -o star_grexec.f $(STAR_BUILT_DRIVER_ROUTINES)
 
 # These are all the driver routines, even if they do not build
 

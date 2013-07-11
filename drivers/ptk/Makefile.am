@@ -51,7 +51,7 @@ tkEvent.t \
 tkInt.t \
 tkIntDecls.t
 
-  AM_CFLAGS = -DPG_PPU  -I../
+  AM_CFLAGS = -DPG_PPU  -I$(top_srcdir)/drivers
 
   dist_noinst_HEADERS = $(PRIVATE_INCLUDES)
 

@@ -12,7 +12,7 @@ if HAVE_XATHENA
    PUBLIC_INCLUDES = XaPgplot.h
    PRIVATE_INCLUDES = XaPgplotP.h
 
-   AM_CFLAGS = -DPG_PPU -I../
+   AM_CFLAGS = -DPG_PPU -I$(top_srcdir)/drivers
 
 endif
 

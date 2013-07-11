@@ -11,6 +11,6 @@ if HAVE_TK
 
   PUBLIC_INCLUDES = tkpgplot.h rvpgplot.h
 
-  AM_CFLAGS = -DPG_PPU -I../
+  AM_CFLAGS = -DPG_PPU -I$(top_srcdir)/drivers
 
 endif

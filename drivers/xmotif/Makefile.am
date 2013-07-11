@@ -12,6 +12,6 @@ if HAVE_XMOTIF
   PUBLIC_INCLUDES = XmPgplot.h
   PRIVATE_INCLUDES = XmPgplotP.h
 
-  AM_CFLAGS = -DPG_PPU -I../
+  AM_CFLAGS = -DPG_PPU -I$(top_srcdir)/drivers
 
 endif
