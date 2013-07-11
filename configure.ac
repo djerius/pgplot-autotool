@@ -24,10 +24,6 @@ AC_HEADER_STDC
 AC_PATH_XTRA
 AC_CHECK_HEADERS(values.h)
 
-dnl    %VAL is used for some memory handling. Under 64bit pointers are 
-dnl    8 bytes. Need to know this.
-AC_CHECK_SIZEOF([void *])
-
 dnl    get the flags required to link other languages against fortran
 dnl    using their compilers, not fortran
 AC_F77_LIBRARY_LDFLAGS
@@ -36,7 +32,24 @@ dnl   These are the driver files that will actually be built.
 dnl   In true autoconf style, we do not attempt to generate this list
 dnl   automatically (see the automake manual's FAQ for justification).
 
-common_built_drivers="exdriv.lo pgdriv.lo cadriv.lo hgdriv.lo lxdriv.lo ppdriv.lo vtdriv.lo gidriv.lo hidriv.lo psdriv.lo ttdriv.lo cwdriv.lo gldriv.lo nedriv.lo wddriv.lo hpdriv.lo lsdriv.lo nudriv.lo qmdriv.lo vadriv.lo cgdriv.lo nexsup.lo rvdriv.lo x2driv.lo xmdriv.lo figdisp_comm.lo pgxwin.lo tkdriv.lo pkdriv.lo xadriv.lo"
+drivers="exdriv.lo pgdriv.lo cadriv.lo hgdriv.lo lxdriv.lo  vtdriv.lo hidriv.lo psdriv.lo ttdriv.lo cwdriv.lo gldriv.lo nedriv.lo hpdriv.lo lsdriv.lo nudriv.lo qmdriv.lo vadriv.lo cgdriv.lo nexsup.lo rvdriv.lo x2driv.lo xmdriv.lo figdisp_comm.lo pgxwin.lo tkdriv.lo pkdriv.lo xadriv.lo"
+
+dnl    %VAL is used for some memory handling. Under 64bit pointers are
+dnl    8 bytes. Files that require this are configured here
+AC_CHECK_SIZEOF([void *])
+AC_SUBST([SIZEOF_VOID_P],[$ac_cv_sizeof_void_p])
+AC_CONFIG_FILES([drivers/ppdriv.f
+	         drivers/gidriv.f
+	         drivers/wddriv.f
+		])
+
+dnl    gfortran < 4.3 can't handle %VAL on 64 bit systems, so just
+dnl    don't compile drivers that use it.
+AX_GNU_FORTRAN_VERSION
+AS_IF([test -n "$GFC_VERSION" -a "$GFC_VERSION_MAJOR" -eq 4 -a "$GFC_VERSION_MINOR" -lt 3 ],
+      [],
+      [drivers="$drivers gidriv.lo ppdriv.lo wddriv.lo"]
+     )
 
 dnl   Make sure that X libs are included in tests.
 dnl   Apple puts libpng in the X11 distribution.
@@ -48,6 +61,7 @@ dnl   have the magical <X11/...> prefix to give cpp a hint.  We add
 dnl   the path here on the basis that it won't hurt anyone else.
 LIBS="$LIBS $X_LIBS"
 CPPFLAGS="$CPPFLAGS $X_CFLAGS -I/usr/X11/include"
+
 
 dnl   Add the png driver if the PNG header and library are available.
 AC_CHECK_HEADER(png.h,
