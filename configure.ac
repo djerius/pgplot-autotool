@@ -77,7 +77,10 @@ have_png=no
 PKG_CHECK_MODULES(
    [PNG],
    [libpng],
-   [have_png=yes],
+   [have_png=yes
+dnl   add png to our own pkg-config files' requirements
+    PKG_CONFIG_REQUIRES="${PKG_CONFIG_REQUIRES}[,]libpng"
+   ],
    [AC_CHECK_HEADER(
         [png.h],
 	[AC_CHECK_LIB([png],[png_create_write_struct],
@@ -92,11 +95,9 @@ PKG_CHECK_MODULES(
     ]
 )
 
-dnl   Add required flags and drivers if we've got libpng.  add png
-dnl   to our own pkg-config files' requirements
+dnl   Add required flags and drivers if we've got libpng.
 AS_IF([test $have_png = yes],
       [ drivers="$drivers pndriv.lo"
-	PKG_CONFIG_REQUIRES="${PKG_CONFIG_REQUIRES}[,]libpng"
 	LIBS="$LIBS $PNG_LIBS"
 	CPPFLAGS="$CPPFLAGS $PNG_CFLAGS"
       ]
