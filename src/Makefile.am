@@ -6,7 +6,7 @@
 noinst_LTLIBRARIES = libpgplot_base.la
 noinst_HEADERS = $(PRIVATE_INCLUDES)
 
-libpgplot_base_la_SOURCES = $(F_ROUTINES) $(NATIVE_PGPLOT_ROUTINES)
+libpgplot_base_la_SOURCES = $(F_ROUTINES)
 nodist_libpgplot_base_la_SOURCES = grgfil.f
 
 #  List of Fortran routines required for building the package.  This is
@@ -49,20 +49,20 @@ pgslct.f pgsls.f pgslw.f pgstbg.f pgsubp.f pgsvp.f pgswin.f pgtbox.f	\
 pgtext.f pgtick.f pgtikl.f pgupdt.f pgvect.f pgvport.f pgvsize.f	\
 pgvsiz.f pgvstand.f pgvstd.f pgvw.f pgwedg.f pgwindow.f pgwnad.f
 
-
-
 PRIVATE_INCLUDES = grpckg1.inc  pgplot.inc
 
-edit = $(SED) \
-             -e 's|[@]pkg_libexecdir[@]|$(libexecdir)/$(PACKAGE)|g'
-
-
 grgfil.f : grgfil.f.in
-	rm -f $@ $@.tmp
+	rm -f $@ $@.tmp $@.rep
 	srcdir=; \
 	test -f ./$@.in || srcdir=$(srcdir)/; \
-	$(edit) $${srcdir}$@.in >$@.tmp
+	echo "$(libexecdir)/$(PACKAGE)" \
+	| fold -60 | sed -e 's/./     1&/' \
+	> $@.rep ; \
+	$(SED) -e '/[@]pkg_libexecdir[@]/r'"$@.rep" \
+	       -e '/[@]pkg_libexecdir[@]/d'\
+	       $(srcdir)/$@.in > $@.tmp
 	mv $@.tmp $@
+	rm $@.rep
 
 
 EXTRA_DIST = grgfil.f.in
