@@ -19,7 +19,7 @@ NATIVE_PGPLOT_ROUTINES = grmsg.f grwarn.f
 F_ROUTINES = \
 grarea.f grbpic.f grchar.f grchr0.f grchsz.f grclip.f grclos.f	       \
 grclpl.f grctoi.f grcurs.f grdat2.f grdot0.f grdot1.f grdtyp.f	       \
-grepic.f gresc.f gretxt.f grfa.f grfao.f grgfil.f grgray.f grgtc0.f    \
+grepic.f gresc.f gretxt.f grfa.f grfao.f grgray.f grgtc0.f    \
 grimg0.f grimg1.f grimg2.f grimg3.f grinit.f grinqfont.f grinqli.f     \
 grinqpen.f gritoc.f grldev.f grlen.f grlin0.f grlin1.f grlin2.f	       \
 grlin3.f grlina.f grlinr.f grmark.f grmcur.f grmker.f grmova.f	       \
@@ -50,6 +50,8 @@ pgslct.f pgsls.f pgslw.f pgstbg.f pgsubp.f pgsvp.f pgswin.f pgtbox.f   \
 pgtext.f pgtick.f pgtikl.f pgupdt.f pgvect.f pgvport.f pgvsize.f       \
 pgvsiz.f pgvstand.f pgvstd.f pgvw.f pgwedg.f pgwindow.f pgwnad.f
 
+
+nodist_F_ROUTINES = grgfil.f
 
 PRIVATE_INCLUDES = grpckg1.inc  pgplot.inc
 
