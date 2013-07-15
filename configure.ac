@@ -19,7 +19,9 @@ AC_PROG_INSTALL
 AC_PROG_MKDIR_P
 AM_PROG_AR
 AC_PROG_LIBTOOL
-
+AC_CHECK_PROG([have_fold],[fold],[yes],[no])
+AS_IF([test $have_fold = "no"],
+      [AC_MSG_ERROR([fold program is required; aborting])])
 AC_HEADER_STDC
 AC_PATH_XTRA
 
