@@ -22,6 +22,7 @@ AC_PROG_LIBTOOL
 
 AC_HEADER_STDC
 AC_PATH_XTRA
+
 AC_CHECK_HEADERS(values.h)
 
 dnl    get the flags required to link other languages against fortran
@@ -51,6 +52,10 @@ AS_IF([test -n "$GFC_VERSION" -a "$GFC_VERSION_MAJOR" -eq 4 -a "$GFC_VERSION_MIN
       [drivers="$drivers gidriv.lo ppdriv.lo wddriv.lo"]
      )
 
+# these provided required linker and compile flags for PGPLOT's pkg-config metadata files
+AC_SUBST([PKG_CONFIG_LIBS])
+AC_SUBST([PKG_CONFIG_CFLAGS])
+
 dnl   Make sure that X libs are included in tests.
 dnl   Apple puts libpng in the X11 distribution.
 dnl   Oddly gcc and cpp (in Snow Leopard) know how to find X11 include
@@ -59,8 +64,10 @@ dnl   configure test does not both adding any include directories for
 dnl   X. This is unfortunate because PNG is sitting there but does not
 dnl   have the magical <X11/...> prefix to give cpp a hint.  We add
 dnl   the path here on the basis that it won't hurt anyone else.
+X_LIBS="$X_LIBS $X_PRE_LIBS -lX11 $X_EXTRA_LIBS"
 LIBS="$LIBS $X_LIBS"
-CPPFLAGS="$CPPFLAGS $X_CFLAGS -I/usr/X11/include"
+X_CFLAGS="$X_CFLAGS -I/usr/X11/include"
+CPPFLAGS="$CPPFLAGS $X_CFLAGS"
 
 
 dnl   Add the png driver if the PNG header and library are available.
@@ -85,6 +92,7 @@ dnl   add png to our own pkg-config files' requirements
         [png.h],
 	[AC_CHECK_LIB([png],[png_create_write_struct],
 	    [PNG_LIBS="-lpng -lz"
+	     PKG_CONFIG_LIBS="$PKG_CONFIG_LIBS $PNG_LIBS"
 	     have_png=yes
 	    ],
 	    [AC_MSG_WARN(PNG libraries not found)],
@@ -129,6 +137,8 @@ AC_ARG_WITH([athena],
     XAINCDIR=$withval/include
     LIBS="$LIBS -L$XALIBDIR"
     CPPFLAGS="$CPPFLAGS -I$XAINCDIR"
+    PKG_CONFIG_LIBS="$PKG_CONFIG_LIBS -L$XALIBDIR"
+    PKG_CONFIG_CFLAGS="$PKG_CONFIG_CFLAGS -L$XAINCDIR"
   fi])
 
 dnl    Hack and slash for the Mac. This should only add goodness to
@@ -166,6 +176,8 @@ AC_ARG_WITH([motif],
     XMINCDIR=$withval/include
     LIBS="$LIBS -L$XMLIBDIR"
     CPPFLAGS="$CPPFLAGS -I$XMINCDIR"
+    PKG_CONFIG_LIBS="$PKG_CONFIG_LIBS -L$XMLIBDIR"
+    PKG_CONFIG_CFLAGS="$PKG_CONFIG_CFLAGS -L$XMINCDIR"
   fi])
 
 if test "$have_motif" = "yes"; then
@@ -195,6 +207,10 @@ AC_CONFIG_FILES([Makefile
 		 drivers/ptk/Makefile
 		 drivers/xmotif/Makefile
 		])
+
+dnl    Add X libraries at end
+PKG_CONFIG_LIBS="$PKG_CONFIG_LIBS $X_LIBS"
+PKG_CONFIG_CFLAGS="$PKG_CONFIG_CFLAGS $X_CFLAGS"
 
 dnl    pkg-config files
 AC_CONFIG_FILES([pgplot.pc

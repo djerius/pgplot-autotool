@@ -7,6 +7,6 @@ version=@PACKAGE_VERSION@
 Name: PGplot
 Description: C 2D Graphics library
 Version: ${version}
-Requires: @PKG_CONFIG_REQUIRES@
-Libs: -L${libdir} -Wl,-rpath,${libdir} -lcpgplot -lpgplot -lnsl -lX11 @FLIBS@
+Requires: pgplot @PKG_CONFIG_REQUIRES@
+Libs: -L${libdir} -Wl,-rpath,${libdir} -lcpgplot @FLIBS@
 Cflags: -I${includedir}
