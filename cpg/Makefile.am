@@ -30,10 +30,6 @@ pkginclude_HEADERS = $(PUBLIC_INCLUDES)
 
 # Build the test
 
-PGXLIBS = $(X_LIBS) $(X_EXTRA_LIBS) $(X_PRE_LIBS) -lX11
-PGPNGLIBS = -lpng -lz
-
-
 TESTS = cpgdemo
 TESTS_ENVIRONMENT= 						\
 	export PGPLOT_FONT=$(top_builddir)/fonts/grfont.dat;	\
@@ -42,7 +38,7 @@ TESTS_ENVIRONMENT= 						\
 check_PROGRAMS = cpgdemo
 cpgdemo_SOURCES = $(DEMO_ROUTINES)
 DEMO_ROUTINES = cpgdemo.c
-cpgdemo_LDADD = libcpgplot.la $(top_builddir)/libpgplot.la $(PGXLIBS) $(PGPNGLIBS) @FLIBS@ 
+cpgdemo_LDADD = libcpgplot.la $(top_builddir)/libpgplot.la
 
 CLEANFILES = $(C_WRAPPERS) $(PUBLIC_INCLUDES) pgbind_prototypes
 
