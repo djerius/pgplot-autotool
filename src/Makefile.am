@@ -55,14 +55,9 @@ grgfil.f : grgfil.f.in
 	rm -f $@ $@.tmp $@.rep
 	srcdir=; \
 	test -f ./$@.in || srcdir=$(srcdir)/; \
-	echo "$(libexecdir)/$(PACKAGE)" \
-	| fold -60 | sed -e 's/./     1&/' \
-	> $@.rep ; \
-	$(SED) -e '/[@]pkg_libexecdir[@]/r'"$@.rep" \
-	       -e '/[@]pkg_libexecdir[@]/d'\
+	$(SED) -e 's|[@]pkg_libexecdir[@]|$(libexecdir)/$(PACKAGE)/|' \
 	       $(srcdir)/$@.in > $@.tmp
 	mv $@.tmp $@
-	rm $@.rep
 
 
 EXTRA_DIST = grgfil.f.in
