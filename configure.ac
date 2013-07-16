@@ -1,5 +1,5 @@
 dnl    Initialisation: package name and version number
-AC_INIT(pgplot, 5.2.2-3_02, djerius@cpan.org)
+AC_INIT(pgplot, 5.2.2-3_03, djerius@cpan.org)
 
 AC_PREREQ(2.69)
 AC_CONFIG_MACRO_DIR([m4])
