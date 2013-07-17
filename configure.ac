@@ -30,8 +30,14 @@ AS_IF([test "x$F77" = x ],
       ]
 )
 
+dnl     Checks for libraries
 
-# Checks for header files.
+dnl     On Ubuntu 13.04, need to explicitly pull in libm to resolve
+dnl     sincos
+AC_CHECK_LIB(m, sincos)
+
+
+dnl     Checks for header files.
 AC_HEADER_STDC
 AC_PATH_XTRA
 AC_CHECK_HEADERS([fcntl.h limits.h memory.h netdb.h netinet/in.h stddef.h sys/file.h sys/socket.h sys/systeminfo.h sys/time.h termios.h unistd.h values.h])
@@ -40,11 +46,10 @@ dnl    get the flags required to link other languages against fortran
 dnl    using their compilers, not fortran
 AC_F77_LIBRARY_LDFLAGS
 
-# Checks for library functions.
+dnl   Checks for library functions.
 AC_FUNC_MALLOC
 AC_FUNC_REALLOC
 AC_CHECK_FUNCS([gethostbyname gethostname memset select socket sqrt strrchr strtol sysinfo])
-
 
 dnl   These are the driver files that will actually be built.
 dnl   In true autoconf style, we do not attempt to generate this list
