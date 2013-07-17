@@ -24,6 +24,13 @@ AC_PROG_MKDIR_P
 AM_PROG_AR
 AC_PROG_LIBTOOL
 
+dnl    Yes Virginia, there are boxes without Fortran. Drag them back to the '70s
+AS_IF([test "x$F77" = x ],
+      [AC_MSG_ERROR([No Fortran compiler found; Cannot build without one. Aborting])
+      ]
+)
+
+
 # Checks for header files.
 AC_HEADER_STDC
 AC_PATH_XTRA
