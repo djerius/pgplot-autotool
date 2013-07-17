@@ -33,7 +33,7 @@ AS_IF([test "x$F77" = x ],
 dnl     Checks for libraries
 
 dnl     On Ubuntu 13.04, need to explicitly pull in libm to resolve
-dnl     sincos
+dnl     sincos, or cpg/cpgdemo won't link correctly
 AC_CHECK_LIB(m, sincos)
 
 
