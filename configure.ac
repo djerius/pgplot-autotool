@@ -14,19 +14,30 @@ AC_CONFIG_SRCDIR([src/pgbeg.f])
 
 dnl    Find required versions of the programs we need for configuration
 AC_PROG_CC
+AC_PROG_AWK
 AC_PROG_F77
 AC_PROG_INSTALL
+AC_PROG_LN_S
+AC_PROG_MAKE_SET
+AC_PROG_RANLIB
 AC_PROG_MKDIR_P
 AM_PROG_AR
 AC_PROG_LIBTOOL
+
+# Checks for header files.
 AC_HEADER_STDC
 AC_PATH_XTRA
-
-AC_CHECK_HEADERS(values.h)
+AC_CHECK_HEADERS([fcntl.h limits.h memory.h netdb.h netinet/in.h stddef.h sys/file.h sys/socket.h sys/systeminfo.h sys/time.h termios.h unistd.h values.h])
 
 dnl    get the flags required to link other languages against fortran
 dnl    using their compilers, not fortran
 AC_F77_LIBRARY_LDFLAGS
+
+# Checks for library functions.
+AC_FUNC_MALLOC
+AC_FUNC_REALLOC
+AC_CHECK_FUNCS([gethostbyname gethostname memset select socket sqrt strrchr strtol sysinfo])
+
 
 dnl   These are the driver files that will actually be built.
 dnl   In true autoconf style, we do not attempt to generate this list
