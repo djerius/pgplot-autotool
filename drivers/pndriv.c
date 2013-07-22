@@ -27,6 +27,10 @@
   March, 1999
   Pete Ratzlaff <pratzlaff@cfa.harvard.edu>
 
+  July, 2011
+    Fixed uninitialized error flag in the DeviceData struct which could
+    sporadically cause output to go unwritten.
+
 */
 
 #include <stdlib.h>
@@ -61,10 +65,7 @@
 #define DEVICE_CAPABILITIES "HNNNNRPNYN"
 #define DEFAULT_FILENAME "pgplot.png"
 
-#define boolean unsigned char
-#define true 1
-#define false 0
-
+typedef enum {false=0, true} boolean;
 
 #define PNG_IDENT_BASIC "PGPLOT /png" /* used in warning messages */
 #define PNG_IDENT_TRANS "PGPLOT /tpng" /* used in warning messages */
@@ -104,8 +105,7 @@ static ColorComponent base_colors[] = {
 static ColorComponent default_colortable[NCOLORS * 3];
 
 /* data for a single open device */
-typedef struct _DeviceData DeviceData, *DeviceDataPtr;
-struct _DeviceData {
+typedef struct {
   int w, h;
   long npix; /* w*h */
   boolean trans; /* transparent background flag */
@@ -116,15 +116,15 @@ struct _DeviceData {
   ColorComponent ctable[NCOLORS * 3];
   ColorIndex cindex; /* current plotting color index */
   int devnum; /* this device's identifier */
-};
+} DeviceData, *DeviceDataPtr;
 
 /* global data holding all devices */
-typedef struct _Devices Devices;
-struct _Devices {
+typedef struct {
   DeviceDataPtr *devices;
   int nallocated;
   int active;
-};
+} Devices;
+
 static Devices all_devices;
 
 /* number of DeviceData structures to allocate at a time */
@@ -180,7 +180,7 @@ static void write_image_file(DeviceData *dev) {
   */
 #define EXTRA_CHARS 16 /* allow 10^15 image files per device */
 
-  filename = malloc(strlen(dev->filename)+EXTRA_CHARS);
+  filename = malloc(strlen(dev->filename)+EXTRA_CHARS+1);
   if (!filename) {
 	fprintf(stderr,"%s: out of memory, plotting disabled\n", png_ident);
 	dev->error = true;
@@ -355,7 +355,7 @@ static void end_plot(DeviceData *dev) {
 static void make_device_active(float devnum) {
   all_devices.active = devnum;
   if (ACTIVE_DEVICE == NULL)
-	fprintf(stderr,"%s: one SIGSEGV coming right up! ACTIVE_DEVICE == NULL\n",png_ident);
+	fprintf(stderr,"%s: out of memory, ACTIVE_DEVICE=NULL\n",png_ident);
 }
 
 /*
@@ -484,7 +484,7 @@ static void open_new_device(char *file, int length, float *id, float *err, int m
 	}
   }
 
-  if (!(all_devices.devices[devnum] = malloc(sizeof(DeviceData)))) {
+  if (!(all_devices.devices[devnum] = calloc(1, sizeof(DeviceData)))) {
 	fprintf(stderr,"%s: out of memory\n", png_ident);
 	return;
   }
@@ -505,6 +505,8 @@ static void open_new_device(char *file, int length, float *id, float *err, int m
   initialize_device_ctable(ACTIVE_DEVICE);
   ACTIVE_DEVICE->devnum = devnum;
   ACTIVE_DEVICE->npages = 0;
+  ACTIVE_DEVICE->error = false;
+  ACTIVE_DEVICE->pixmap = NULL;
 
   if (mode & TRANS_ON)
 	ACTIVE_DEVICE->trans = true;
