@@ -8,5 +8,5 @@ Name: PGplot
 Description: C 2D Graphics library
 Version: ${version}
 Requires: pgplot @PKG_CONFIG_REQUIRES@
-Libs: -L${libdir} -Wl,-rpath,${libdir} -lcpgplot @FLIBS@
+Libs: -L${libdir} -lcpgplot @FLIBS@
 Cflags: -I${includedir}
