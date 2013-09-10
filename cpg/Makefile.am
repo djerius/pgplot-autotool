@@ -32,6 +32,7 @@ pkginclude_HEADERS = $(PUBLIC_INCLUDES)
 
 TESTS = cpgdemo
 TESTS_ENVIRONMENT= 						\
+	export PATH=$(top_builddir)/drivers:$$PATH		\
 	export PGPLOT_FONT=$(top_builddir)/fonts/grfont.dat;	\
 	export PGPLOT_RGB=$(top_srcdir)/rgb.txt ;
 
