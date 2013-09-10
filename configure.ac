@@ -23,6 +23,9 @@ AC_PROG_RANLIB
 AC_PROG_MKDIR_P
 AM_PROG_AR
 AC_PROG_LIBTOOL
+AC_CHECK_PROG([have_fold],[fold],[yes],[no])
+AS_IF([test $have_fold = "no"],
+      [AC_MSG_ERROR([fold program is required; aborting])])
 
 dnl    Yes Virginia, there are boxes without Fortran. Drag them back to the '70s
 AS_IF([test "x$F77" = x ],

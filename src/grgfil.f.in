@@ -27,7 +27,7 @@ C  2-Dec-1994 - new routine [TJP].
 C-----------------------------------------------------------------------
       CHARACTER*(*) DEFDIR, DEFFNT, DEFRGB
       PARAMETER  (DEFDIR=
-     1'@pkg_libexecdir@'
+@pkg_libexecdir@
      1)
       PARAMETER  (DEFFNT='grfont.dat')
       PARAMETER  (DEFRGB='rgb.txt')

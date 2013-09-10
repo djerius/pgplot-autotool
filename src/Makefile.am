@@ -55,10 +55,17 @@ grgfil.f : grgfil.f.in
 	rm -f $@ $@.tmp $@.rep
 	srcdir=; \
 	test -f ./$@.in || srcdir=$(srcdir)/; \
-	$(SED) -e 's|[@]pkg_libexecdir[@]|$(libexecdir)/$(PACKAGE)/|' \
+	echo '/[@]pkg_libexecdir[@]/ c \' > grgfil.f.sed ; \
+	echo "'$(libexecdir)/$(PACKAGE)/'" \
+	| fold -w 66 \
+	| sed -e 's/./     1&/' \
+	      -e 's/.$$/&\\/' \
+	      -e '$$s/\\$$//' \
+	>> grgfil.f.sed ; \
+	$(SED) -f grgfil.f.sed  \
 	       $(srcdir)/$@.in > $@.tmp
 	mv $@.tmp $@
 
 
 EXTRA_DIST = grgfil.f.in
-DISTCLEANFILES = grgfil.f
+DISTCLEANFILES = grgfil.f grgfil.f.sed
