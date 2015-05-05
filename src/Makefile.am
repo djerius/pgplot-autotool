@@ -51,17 +51,19 @@ pgvsiz.f pgvstand.f pgvstd.f pgvw.f pgwedg.f pgwindow.f pgwnad.f
 
 PRIVATE_INCLUDES = grpckg1.inc  pgplot.inc
 
-grgfil.f : grgfil.f.in
-	rm -f $@ $@.tmp $@.rep
-	srcdir=; \
-	test -f ./$@.in || srcdir=$(srcdir)/; \
-	echo '/[@]pkg_libexecdir[@]/ c \' > grgfil.f.sed ; \
+grgfil.f.sed :
+	echo '/[@]pkg_libexecdir[@]/ c \' > $@ ; \
 	echo "'$(libexecdir)/$(PACKAGE)/'" \
 	| fold -w 66 \
-	| sed -e 's/./     1&/' \
+	| sed -e 's/./\\     1&/' \
 	      -e 's/.$$/&\\/' \
 	      -e '$$s/\\$$//' \
-	>> grgfil.f.sed ; \
+	>> $@
+
+grgfil.f : grgfil.f.in grgfil.f.sed
+	rm -f $@ $@.tmp
+	srcdir=; \
+	test -f ./$@.in || srcdir=$(srcdir)/; \
 	$(SED) -f grgfil.f.sed  \
 	       $(srcdir)/$@.in > $@.tmp
 	mv $@.tmp $@
