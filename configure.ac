@@ -1,7 +1,7 @@
 dnl    Initialisation: package name and version number
-AC_INIT(pgplot, 5.2.2-3_05, djerius@cpan.org)
+AC_INIT([pgplot],[5.2.2-3_05],[djerius@cpan.org])
 
-AC_PREREQ(2.69)
+AC_PREREQ([2.69])
 AC_CONFIG_MACRO_DIR([m4])
 
 # cannot run parallel tests as all tests require keyboard input
@@ -19,10 +19,10 @@ AC_PROG_F77
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
-AC_PROG_RANLIB
+
 AC_PROG_MKDIR_P
 AM_PROG_AR
-AC_PROG_LIBTOOL
+LT_INIT
 AC_CHECK_PROG([have_fold],[fold],[yes],[no])
 AS_IF([test $have_fold = "no"],
       [AC_MSG_ERROR([fold program is required; aborting])])
@@ -148,8 +148,7 @@ AC_SUBST(BUILT_DRIVERS)
 dnl    Stuff required for xathena
 have_athena="yes"
 AC_ARG_WITH([athena],
-	     AC_HELP_STRING([--with-athena[=path]],
-	     [use Xaw3d (default location /usr/X11R6/)]),
+	     AS_HELP_STRING([--with-athena[=path]],[use Xaw3d (default location /usr/X11R6/)]),
   [if test "$withval" = "yes"; then
     # Default place
     LIBS="$LIBS $X_LIBS"
@@ -187,8 +186,7 @@ AM_CONDITIONAL( HAVE_TK, false )
 dnl    xmotif
 have_motif="yes"
 AC_ARG_WITH([motif],
-	     AC_HELP_STRING([--with-motif[=path]],
-	     [use XMotif (default location /usr/X11R6)]),
+	     AS_HELP_STRING([--with-motif[=path]],[use XMotif (default location /usr/X11R6)]),
   [if test "$withval" = "yes"; then
     # Default place
     LIBS="$LIBS $X_LIBS"
