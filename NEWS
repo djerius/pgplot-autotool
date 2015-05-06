@@ -1,0 +1,23 @@
+5.2.2-4 2015-05-06T11:24:49-0400
+
+  [BUG FIX]
+    * PNG driver would sporadically not write output (Pete Ratzlaff)
+
+  [BUILD FIXES]
+
+    * various tweaks for various OS's
+    * fix to pkg-config file
+
+5.2.2-3	2013-07-11T17:07:43-0400
+
+    * First release by Diab Jerius after extraction from Starlink
+    * All kudos to those who did the real work :
+	  - Tim Jenness
+	  - Peter W. Draper
+	  - David Berry
+	  - Russel Kackley
+	  - Malcolm J. Currie
+	  - Norman Gray
+	  - Brad Cavanagh
+	  - Mark Taylor
+	  - Alasdair Allan
