@@ -11,7 +11,6 @@ dnl    Sanity-check: name a file in the source directory -- if this
 dnl    isn't found then configure will complain
 AC_CONFIG_SRCDIR([src/pgbeg.f])
 
-
 dnl    Find required versions of the programs we need for configuration
 AC_PROG_CC
 AC_PROG_AWK
@@ -48,6 +47,13 @@ AC_CHECK_HEADERS([fcntl.h limits.h memory.h netdb.h netinet/in.h stddef.h sys/fi
 dnl    get the flags required to link other languages against fortran
 dnl    using their compilers, not fortran
 AC_F77_LIBRARY_LDFLAGS
+
+
+dnl    on some older OS X systems w/ older gfortran, gfortran doesn't
+dnl    default to generating 64bit binaries even if the C compiler
+dnl    does.  See if we can figure out how to force gfortran to do so.
+MST_FORTRAN_64BIT([Fortran 77])
+
 
 dnl   Checks for library functions.
 AC_FUNC_MALLOC
