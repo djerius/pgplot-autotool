@@ -77,8 +77,9 @@ AC_CONFIG_FILES([drivers/ppdriv.f
 
 dnl    gfortran < 4.3 can't handle %VAL on 64 bit systems, so just
 dnl    don't compile drivers that use it.
-AX_GNU_FORTRAN_VERSION
-AS_IF([test -n "$GFC_VERSION" -a "$GFC_VERSION_MAJOR" -eq 4 -a "$GFC_VERSION_MINOR" -lt 3 ],
+MST_GNU_FORTRAN_VERSION([Fortran 77])
+
+AS_IF([test "$mst_prog_gnu_f77_version" != '0.0.0' && test "$mst_prog_gnu_f77_version_major" -eq 4 && test "$mst_prog_gnu_f77_version_minor" -lt 3 ],
       [],
       [drivers="$drivers gidriv.lo ppdriv.lo wddriv.lo"]
      )
