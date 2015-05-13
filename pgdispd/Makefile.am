@@ -1,11 +1,16 @@
 ## Process this file with automake to produce Makefile.in
 
+if HAVE_X_WINDOW_SYSTEM
+
 bin_PROGRAMS = pgdisp
 pgdisp_SOURCES = $(C_ROUTINES)
 pgdisp_LDADD = $(X_LIBS) $(X_EXTRA_LIBS) $(X_PRE_LIBS) -lX11
+AM_CFLAGS = -DPGDISP
+
+endif
+
 dist_noinst_HEADERS = $(PRIVATE_INCLUDES)
 dist_noinst_DATA = figdisp.icon nocursor.icon
-AM_CFLAGS = -DPGDISP
 
 C_ROUTINES = cleanup.c getcolors.c handlexevent.c initlock.c ntoh.c    \
 resdb.c updatelgtitle.c exposelgwin.c getdata.c initlgluts.c	       \

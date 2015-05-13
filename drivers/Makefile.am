@@ -1,6 +1,16 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = xmotif xathena xtk ptk
+SUBDIRS =
+
+if HAVE_X_WINDOW_SYSTEM
+
+  SUBDIRS += xmotif xathena xtk ptk
+
+  bin_PROGRAMS = pgxwin_server
+  pgxwin_server_SOURCES = pgxwin_server.c
+  pgxwin_server_LDADD = $(X_LIBS) $(X_EXTRA_LIBS) $(X_PRE_LIBS) -lX11
+
+endif
 
 # To change driver list edit configure.ac
 BUILT_DRIVER_ROUTINES = @BUILT_DRIVERS@
@@ -11,10 +21,6 @@ libpgplot_drivers_la_SOURCES = grexec.f
 EXTRA_libpgplot_drivers_la_SOURCES = $(DRIVER_ROUTINES)
 libpgplot_drivers_la_LIBADD = $(BUILT_DRIVER_ROUTINES)
 libpgplot_drivers_la_DEPENDENCIES = $(BUILT_DRIVER_ROUTINES)
-
-bin_PROGRAMS = pgxwin_server
-pgxwin_server_SOURCES = pgxwin_server.c
-pgxwin_server_LDADD = $(X_LIBS) $(X_EXTRA_LIBS) $(X_PRE_LIBS) -lX11
 
 dist_noinst_HEADERS = commands.h defines.h  pgxwin.h figdisp_comm.h
 dist_noinst_SCRIPTS = makegrexec.pl
