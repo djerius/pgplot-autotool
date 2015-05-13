@@ -22,6 +22,8 @@
 #include "figdisp.h"
 #include "globals.h"
 
+#include "getcolors.h"
+
 /* The visual classes to use for r/w color maps, in order of preference */
 static int rwvis[]={DirectColor, PseudoColor, GrayScale};
 static int nrwvis=sizeof(rwvis)/sizeof(rwvis[0]);
@@ -38,7 +40,7 @@ Colormap *cmap;		/* The color map actually used */
 unsigned long *pix;	/* The pixels allocated */
 int maxcolors;		/* The maximum number of colors to allocate */
 int mincolors;		/* The minimum number of colors to allocate */
-int *depth;		/* The depth of the visual actually used */
+unsigned int *depth;		/* The depth of the visual actually used */
 int maxdepth;		/* The maximum allowed visual depth */
 int mindepth;		/* The minimum allowed visual depth */
 {

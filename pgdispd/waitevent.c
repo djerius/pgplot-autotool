@@ -46,17 +46,20 @@
 #include "globals.h"
 #include "messages.h"
 #include "commands.h"
+#include "proccom.h"
+#include "returnbuf.h"
+#include "waitevent.h"
 
 /* Choose one of the following to select either good response time or low */
 /* system load, keeping in mind what your system provides.  If none of the */
 /* following defines is chosen, BUSY is used. */
-/* #define	BUSY	/* Busy loop while waiting for events.  This loads */
+/* #define	BUSY */	/* Busy loop while waiting for events.  This loads */
 			/* system but gives quickest response time and is */
 			/* ompletely portable (since it does nothing). */
-/* #define	SLEEP	/* Use the sleep(3) call to wait between existance */
+/* #define	SLEEP */	/* Use the sleep(3) call to wait between existance */
 			/* checks.  This is much nicer on the system load but */
 			/* gives poor response time. */
-/* #define	SELECT	/* Use this if possible. */
+/* #define	SELECT */	/* Use this if possible. */
 #ifdef VMS
 #define		WAIT	/* use the LIB$WAIT call */
 #else
@@ -65,7 +68,7 @@
 
 int waitevent()
 {
-	short retbuf;
+	unsigned short retbuf;
 #ifdef WAIT
 	float waittime;
 
@@ -93,7 +96,7 @@ int waitevent()
 				return(-1);
 			}
 			XUngrabKeyboard(display,CurrentTime);
-			(void)proccom((short *)NULL,0,(short *)NULL,(int *)0);
+			proccom(NULL,0,NULL,0);
 			return(0);	/* the selection owner was reset */
 		}
 		/* give the idle message if the user's asked for it */

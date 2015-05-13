@@ -46,6 +46,8 @@
 #include "figdisp.icon"
 #include "nocursor.icon"
 
+#include "initlgwin.h"
+
 #define MAX_DEPTH	25	/* Must be greater than the maximum depth */
 				/* supported by X Window */
 
@@ -67,7 +69,6 @@ int initlgwin()
 
 	Pixmap XCreatePixmap();
 	void initlgluts();	/* initialize the LUTs */
-	char *malloc();
 	void initwmattr();
 
 	/* Initialize the line graphics LUTs */

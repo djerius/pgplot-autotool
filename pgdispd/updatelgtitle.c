@@ -11,10 +11,12 @@
 /* 10-Apr-1992	SNS/CIT	Can now deal with lg.winxoff and lg.winyoff */
 /*  4-Oct-1992	SNS/CIT	No longer needs #ifdef KECK */
 
-#include "figdisp.h"
-#include "globals.h"
 #include <X11/Xlib.h>
 #include <string.h>
+#include <stdio.h>
+
+#include "figdisp.h"
+#include "globals.h"
 
 void updatelgtitle(x,y)
 int x,y;	/* cursor position */
@@ -26,10 +28,6 @@ int x,y;	/* cursor position */
 	int datval;
 	XImage *image;
 	int i;
-
-#ifndef _AIX
-	char *sprintf();
-#endif
 
 	/* make sure we don't confuse anything. */
 	if (x < lg.winxoff || x >= lg.imwidth+lg.winxoff || y < lg.winyoff ||
@@ -57,10 +55,10 @@ int x,y;	/* cursor position */
 		cury=lg.height-(y-lg.winyoff)-1;
 		curx=(curx-lg.curxoff)/lg.curxsc;
 		cury=(cury-lg.curyoff)/lg.curysc;
-		if (datval < 0) (void)sprintf(&newtitle[0],
+		if (datval < 0) sprintf(&newtitle[0],
 			"line graphics #%d X: %.6g Y: %.6g", res.id, curx,
 			cury);
-		else (void)sprintf(&newtitle[0],
+		else sprintf(&newtitle[0],
 			"line graphics #%d X: %.6g Y: %.6g Color Index: %d",
 			res.id, curx, cury, datval);
 	}

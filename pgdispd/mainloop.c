@@ -57,6 +57,9 @@
 /* The program include files */
 #include "figdisp.h"
 #include "globals.h"
+#include "mainloop.h"
+#include "handlexevent.h"
+#include "waitevent.h"
 
 int mainloop()
 {

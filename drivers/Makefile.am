@@ -16,7 +16,7 @@ bin_PROGRAMS = pgxwin_server
 pgxwin_server_SOURCES = pgxwin_server.c
 pgxwin_server_LDADD = $(X_LIBS) $(X_EXTRA_LIBS) $(X_PRE_LIBS) -lX11
 
-dist_noinst_HEADERS = commands.h defines.h  pgxwin.h
+dist_noinst_HEADERS = commands.h defines.h  pgxwin.h figdisp_comm.h
 dist_noinst_SCRIPTS = makegrexec.pl
 
 grexec.f: $(BUILT_DRIVER_ROUTINES) makegrexec.pl

@@ -25,11 +25,14 @@
 /*  6-Mar-1992	SNS/CIT	getcolors now takes a min and max visual depth. */
 /*  9-Mar-1992	SNS/CIT	Silly bug in two color mode fixed */
 
+#include <stdio.h>
+#include <stdlib.h>
+
 #include "figdisp.h"
 #include "globals.h"
 #include "messages.h"
-
-#include <stdio.h>
+#include "getcolors.h"
+#include "getvisuals.h"
 
 #define MAX_DEPTH	24	/* the maximum visual depth to use */
 
@@ -276,10 +279,10 @@ int getvisuals()
 
 	if ((bm.colors=getcolors(UseDefaultCmap, &bitvisual, &bitcmap, bm.pix,
 		res.maxcolors+res.leavecolors, res.mincolors+res.leavecolors,
-		&bitdepth))
+				 &bitdepth, MAX_DEPTH, 8 ))
 	    || (bm.colors=getcolors(UseRWVisual, &bitvisual, &bitcmap, bm.pix,
 		res.maxcolors+res.savecolors, res.mincolors+res.savecolors,
-		&bitdepth)))
+				    &bitdepth, MAX_DEPTH, 8 )))
 	{ /* success! */
 		if (bitcmap == DefaultColormap(display, screen))
 		{
@@ -322,7 +325,7 @@ int getvisuals()
 	while (res.lgcolors > 2)
 	{
 		if (lg.colors=getcolors(UseROVisual, &linevisual, &linecmap,
-			lg.pix, res.lgcolors, res.lgcolors, &linedepth)) break;
+					lg.pix, res.lgcolors, res.lgcolors, &linedepth, MAX_DEPTH, 8)) break;
 
 		/* lower our standards */
 		if (res.lgcolors > 16) res.lgcolors=16;

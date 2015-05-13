@@ -40,6 +40,12 @@
 #include "messages.h"
 #include "globals.h"
 #include "commands.h"
+
+#include "initlock.h"
+#include "getvisuals.h"
+#include "initlgwin.h"
+#include "mainloop.h"
+
 #undef DEFINE_GLOBALS
 #undef INC_HEADER_RCS
 

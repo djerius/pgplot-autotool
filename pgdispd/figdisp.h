@@ -8,13 +8,13 @@
 /*			and INCCOM */
 /* 16-Nov-1990	SNS/CIT	Added LG_MAX_HEIGHT and LG_MAX_WIDTH. */
 /* 10-Dec-1990	SNS/CIT	wininfo struct added.  VMS changes merged in. */
-/*			LG_DEPTH changed to LG_MIN_DEPTH.  BM_MIN_DEPTH
+/*			LG_DEPTH changed to LG_MIN_DEPTH.  BM_MIN_DEPTH */
 /*			added. */
 /* 11-Dec-1990	SNS/CIT	winname and iconname added to wininfo structure. */
 /*			BM_MIN_WIDTH, BM_MIN_HEIGHT, BM_WIDTH, BM_HEIGHT, */
 /*			BM_MAX_WIDTH, BM_MAX_HEIGHT, and BM_COLORS added. */
 /*			pix member of wininfo structure now a pointer. */
-/* 12-Dec-1990	SNS/CIT	LG_BDWIDTH changed to BORDER_WIDTH.  BLANK_WIDTH
+/* 12-Dec-1990	SNS/CIT	LG_BDWIDTH changed to BORDER_WIDTH.  BLANK_WIDTH */
 /*			added.  Image, line, maxh, minh, maxw, and minw */
 /*			members added to wininfo structure. */
 /* 17-Dec-1990	SNS/CIT	colors member added to wininfo structure. */
@@ -47,7 +47,7 @@
 /*			printer, the number of microseconds to sleep between */
 /*			client existance checks, whether or not we should */
 /*			force the location window pixels to be square, and */
-/*			the number of color cells to copy from the default
+/*			the number of color cells to copy from the default */
 /*			color map to any private color map. */
 /* 25-Nov-1991	SNS/CIT	Now has separate zoom factors for X & Y and allows */
 /*			user specification of the behaviour of line plots. */

@@ -32,6 +32,8 @@
 #include "figdisp.h"
 #include "globals.h"
 
+#include "figcurs.h"
+
 struct curpos {
 	short x;	/* x position */
 	short y;	/* y position */
@@ -49,30 +51,6 @@ static struct curpos *lastbm=NULL;	/* last in list of bitmap graphics */
 static int bmx,bmy;			/* bitmap graphics cursor location */
 #endif
 
-/* The pggcurs and bmcurs routines get the first cursor event in the line */
-/* graphics or bitmap graphics list and returns it in the buffer buf, which */
-/* has the format for the BM_GET_CURS and LG_CURS commands. */
-/* Return Values: */
-/* Whatever getcurs returns */
-
-int pggcurs(buf)
-short *buf;
-{
-	int getcurs ();
-
-	return(getcurs(buf,&lgcurses,&lastlg));
-}
-
-#ifndef PGDISP
-int bmgcurs(buf)
-short *buf;
-{
-	int getcurs ();
-
-	return(getcurs(buf,&bmcurses,&lastbm));
-}
-#endif
-
 /* The getcurs routine gets the first cursor point from the given list, */
 /* updates the buffer accordingly, and updates the given pointer. */
 /* Return Values: */
@@ -80,7 +58,7 @@ short *buf;
 /* 1	The buffer was set properly */
 
 int getcurs(buf,curlist,listend)
-short *buf;
+unsigned short *buf;
 struct curpos **curlist;
 struct curpos **listend;
 {
@@ -101,6 +79,27 @@ struct curpos **listend;
 
 	return(1);
 }
+
+/* The pggcurs and bmcurs routines get the first cursor event in the line */
+/* graphics or bitmap graphics list and returns it in the buffer buf, which */
+/* has the format for the BM_GET_CURS and LG_CURS commands. */
+/* Return Values: */
+/* Whatever getcurs returns */
+
+int pggcurs(buf)
+unsigned short *buf;
+{
+	return(getcurs(buf,&lgcurses,&lastlg));
+}
+
+#ifndef PGDISP
+int bmgcurs(buf)
+unsigned short *buf;
+{
+	return(getcurs(buf,&bmcurses,&lastbm));
+}
+#endif
+
 
 /* The pgcursor routine adds the specified event to the list of cursor events */
 /* on the line graphics window. */
@@ -217,7 +216,7 @@ XEvent event;
 
 void getbuttonval(button,val)
 unsigned int button;
-short *val;
+unsigned short *val;
 {
 	switch(button)
 	{
@@ -250,7 +249,7 @@ short *val;
 
 int getkeyval(event,val)
 XEvent event;
-short *val;
+unsigned short *val;
 {
 	char tmpchr;
 	KeySym keysym;

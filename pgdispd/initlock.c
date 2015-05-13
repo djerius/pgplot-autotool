@@ -29,7 +29,9 @@
 #include "globals.h"
 #include "messages.h"
 
-int initlock()
+#include "initlock.h"
+
+int initlock(void)
 {
 	char lockatomstr[MAXSTRLEN];	/* the name of the locking atom */
 

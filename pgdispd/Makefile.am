@@ -12,5 +12,19 @@ resdb.c updatelgtitle.c exposelgwin.c getdata.c initlgluts.c	       \
 initwmattr.c pgdisp.c resizelgwin.c waitevent.c figcurs.c getvisuals.c \
 initlgwin.c mainloop.c proccom.c returnbuf.c
 
-PRIVATE_INCLUDES = commands.h  figdisp.h  globals.h  messages.h
-
+PRIVATE_INCLUDES =				\
+	commands.h				\
+	figcurs.h				\
+	figdisp.h				\
+	getcolors.h				\
+	getdata.h				\
+	getvisuals.h				\
+	globals.h				\
+	handlexevent.h				\
+	initlgwin.h				\
+	initlock.h				\
+	mainloop.h				\
+	messages.h				\
+	proccom.h				\
+	returnbuf.h				\
+	waitevent.h

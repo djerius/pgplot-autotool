@@ -46,6 +46,9 @@ static char rcsid[]="@(#)$Id$";
 #include "globals.h"
 #include "messages.h"
 
+#include "getdata.h"
+#include "figcurs.h"
+
 int luttransoff=0;
 int modluttransoff=0;
 
@@ -63,7 +66,7 @@ int *go_on;	/* whether the calling routine shoudl exit successfully */
 #endif
 	int px,py;	/* The pointer X & Y position */
 	XEvent event2;	/* A second event */
-	static short retbuf[7];		/* A buffer for return values */
+	static unsigned short retbuf[7];		/* A buffer for return values */
 	static int retbuflen=0;		/* the actual length of the buffer */
 	static int lgx= -1 ,lgy;	/* current line graphics line pos */
 	Window windum;

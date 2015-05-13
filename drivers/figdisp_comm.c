@@ -17,6 +17,8 @@
 
 /* The system include files */
 #include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
 
 /* Get ntohs prototype or macro */
 
@@ -34,6 +36,8 @@
 #include <processes.h>		/* for system() */
 #include <signal.h>		/* for sleep() */
 #endif
+
+#include "figdisp_comm.h"
 
 static Display *display;	/* the display we're using */
 static int screen;		/* the screen we're using */
@@ -92,8 +96,6 @@ int len;		/* number of shorts in the command buffer */
 
 	int itmp;	/* a temporary integer */
 
-	void figdisp_convbufout();
-
 	if (!fd_dispopen) return;
 	/* convert the buffer to network byte order */
 	figdisp_convbufout(buffer,len);
@@ -141,8 +143,6 @@ int *len;		/* the number of shorts in the response */
 	int actform;	/* the actual format of the message */
 	unsigned long bytesleft;	/* the number of bytes left */
 	unsigned long nitems;	/* number of items in value */
-
-	void figdisp_convbufin();
 
 	while(fd_dispopen && !xerror)
 	{

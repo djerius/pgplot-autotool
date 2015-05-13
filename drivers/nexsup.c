@@ -11,6 +11,9 @@
 #include <sys/time.h>
 #include <netdb.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
 int pgsock=-1;
 struct sockaddr_in server;
@@ -34,7 +37,8 @@ void grgetreply(ifunc, ibuf, lbuf)
       };
       struct pgmess sbuf;
       int    msgsock, repsock;
-      int    i, itmp;
+      int    i;
+      socklen_t itmp;
 
 /* We need a socket that pgview can reply to.  Create descriptor. */
       repsock = socket(AF_INET, SOCK_STREAM, 0);
@@ -71,7 +75,7 @@ void grgetreply(ifunc, ibuf, lbuf)
          perror("writing on stream socket");
 
 /* Now wait for the reply */
-      msgsock = accept(repsock, (struct sockaddr *)0, (int *)0);
+      msgsock = accept(repsock, (struct sockaddr *)0, (socklen_t *)0);
       if (msgsock == -1)
          perror("accept");
       else {

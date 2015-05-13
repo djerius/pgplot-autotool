@@ -2,7 +2,7 @@
 /* It is called upon receipt of a SelectionNotify event. */
 /* Return Value: */
 /* 1	If everything went fine */
-/* 0	If something happened and the program should terminate. *
+/* 0	If something happened and the program should terminate. */
 
 /* Sam Southard, Jr. */
 /* Created: 15-Dec-1990 from mainloop.c */
@@ -34,17 +34,18 @@
 #include "figdisp.h"
 #include "globals.h"
 #include "messages.h"
-
+#include "proccom.h"
+#include "getdata.h"
 
 int getdata(event,rbuf,rbuflen,srcwin,selset)
 XSelectionEvent event;	/* the event we're handling */
-short *rbuf;	/* a return buffer, if needed */
+unsigned short *rbuf;	/* a return buffer, if needed */
 int *rbuflen;	/* the length of the return buffer.  If it's 0, no return */
 		/* message should be sent. */
 Window srcwin;	/* the source of our data */
 int *selset;	/* whether or not the selection is owned by a user program */
 {
-	short *buffer;			/* buffer for the data received */
+	unsigned short *buffer;			/* buffer for the data received */
 	/* the max buffer length (in 16-bit words) */
 	static long buflen= -1;
 	unsigned long nitems;		/* the actual number of items we got */
@@ -54,7 +55,6 @@ int *selset;	/* whether or not the selection is owned by a user program */
 
 	void returnbuf();		/* return data to the user process */
 	void clearcurs();		/* clear the list of cursor presses */
-	int proccom ();
 
 	if (buflen == -1) buflen= (XMaxRequestSize(display)-10)<<1;
 	if (XGetWindowProperty(display, srcwin, event.property, 0L, buflen,
@@ -82,7 +82,7 @@ int *selset;	/* whether or not the selection is owned by a user program */
 #ifndef PGDISP
 			(void)writeimage((short **)NULL,(int *)NULL);
 #endif
-			(void)proccom(buffer,0,rbuf,rbuflen);
+			proccom(buffer,0,rbuf,rbuflen);
 			if (*rbuflen) (void)fprintf(stderr,MSG_REPLYNOTSENT);
 			*rbuflen=0;
 			XFlush(display);

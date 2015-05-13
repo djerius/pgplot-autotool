@@ -115,6 +115,8 @@ static char rcsid[]="@(#)$Id$";
 #include "figdisp.h"
 #include "globals.h"
 #include "messages.h"
+#include "figcurs.h"
+#include "proccom.h"
 
 /* A trivial macro */
 #define min(x,y) (((x) > (y)) ? (y) : (x))
@@ -125,7 +127,7 @@ int len;	/* the length of the buffer */
 unsigned short *retbuf;	/* a buffer for return values */
 int *retbuflen;	/* the length of retbuf */
 {
-	static short bufcont[7];	/* the buffer contents while we're */
+	static unsigned short bufcont[7];	/* the buffer contents while we're */
 					/* working on things */
 	static int buflen;		/* the return buffer length */
 	static int lgcolor;		/* the current color */
