@@ -1,3 +1,17 @@
+5.2.2-5
+
+  [BUILD FIXES]
+
+    * don't attempt to compile X Window System drivers if no OS support
+      for X is available
+
+    * replace K&R forward declarations with ANSI prototypes; fix
+      discovered mis-calls to pgdispd/getcolors
+
+    * On some systems (older OS X) (older) gfortran defaulted to building
+      32 bit objects; auto-detect this and force 64bit builds
+
+
 5.2.2-4 2015-05-06T11:24:49-0400
 
   [BUG FIX]
