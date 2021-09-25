@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-if HAVE_X_WINDOW_SYSTEM
+if COMPILE_PGDISP
 
 bin_PROGRAMS = pgdisp
 pgdisp_SOURCES = $(C_ROUTINES)

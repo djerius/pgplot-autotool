@@ -73,23 +73,51 @@ dnl   automatically (see the automake manual's FAQ for justification).
 drivers="exdriv.lo pgdriv.lo cadriv.lo hgdriv.lo lxdriv.lo  vtdriv.lo hidriv.lo psdriv.lo ttdriv.lo cwdriv.lo gldriv.lo nedriv.lo hpdriv.lo lsdriv.lo nudriv.lo qmdriv.lo vadriv.lo cgdriv.lo nexsup.lo rvdriv.lo xmdriv.lo tkdriv.lo pkdriv.lo xadriv.lo"
 
 dnl   Not all platforms have X
+COMPILE_PGDISP=no
 AS_IF([ test "x$no_x" = "x"],
       [
-	drivers="$drivers x2driv.lo xwdriv.lo figdisp_comm.lo pgxwin.lo "
-	dnl   Make sure that X libs are included in tests.
-	dnl   Apple puts libpng in the X11 distribution.
-	dnl   Oddly gcc and cpp (in Snow Leopard) know how to find X11 include
-	dnl   files without being told.  This means that the standard
-	dnl   configure test does not both adding any include directories for
-	dnl   X. This is unfortunate because PNG is sitting there but does not
-	dnl   have the magical <X11/...> prefix to give cpp a hint.  We add
-	dnl   the path here on the basis that it won't hurt anyone else.
-	X_LIBS="$X_LIBS $X_PRE_LIBS -lX11 $X_EXTRA_LIBS"
-	LIBS="$LIBS $X_LIBS"
-	X_CFLAGS="$X_CFLAGS -I/usr/X11/include"
-	CPPFLAGS="$CPPFLAGS $X_CFLAGS"
+       dnl Don't take their word for it.  If we can't find the
+       dnl headers, don't compile the X drivers
+       AC_CHECK_HEADERS([ X11/Intrinsic.h X11/keysym.h ])
+       AC_CHECK_HEADERS([ X11/StringDefs.h X11/Xatom.h ])
+       AC_CHECK_HEADERS([ X11/X.h X11/Xlib.h X11/Xos.h X11/Xresource.h X11/Xutil.h] )
+
+       AS_IF( [ test    "x$ac_cv_header_X11_Xos_h" = xyes -a "x$ac_cv_header_X11_Xlib_h" = xyes -a "x$ac_cv_header_X11_Xutil_h" = xyes -a "x$ac_cv_header_X11_keysym_h" = xyes],
+              [ drivers="$drivers pgxwin.lo" ],
+              [ AC_MSG_WARN([X drivers requested, but missing headers prevent building of pgxwin])]
+       )
+
+       AS_IF( [ test    "x$ac_cv_header_X11_Xatom_h" = xyes  -a "x$ac_cv_header_X11_Xlib_h" = xyes ],
+              [ drivers="$drivers x2driv.lo figdisp_comm.lo" ],
+              [ AC_MSG_WARN([X drivers requested, but missing headers prevent building of x2driv and figdisp]) ]
+       )
+
+       AS_IF( [ test    "x$ac_cv_header_X11_Xos_h" = xyes -a "x$ac_cv_header_X11_Xlib_h" = xyes -a "x$ac_cv_header_X11_Xutil_h" = xyes -a "x$ac_cv_header_X11_keysym_h" = xyes -a "x$ac_cv_header_X11_Xatom_h" = xyes],
+              [ drivers="$drivers xwdriv.lo" ],
+              [ AC_MSG_WARN([X drivers requested, but missing headers prevent building of xwdriv]) ]
+       )
+
+       AS_IF( [ test "x$ac_cv_header_X11_Intrinsic_h" = xyes -a  "x$ac_cv_header_X11_keysym_h" = xyes -a  "x$ac_cv_header_X11_StringDefs_h" = xyes -a  "x$ac_cv_header_X11_Xatom_h" = xyes -a  "x$ac_cv_header_X11_Xlib_h" = xyes -a  "x$ac_cv_header_X11_Xresource_h" = xyes -a  "x$ac_cv_header_X11_Xutil_h" = xyes ],
+              [ COMPILE_PGDISP=yes ],
+              [ AC_MSG_WARN([X drivers requested, but missing headers prevent building of pgdisp]) ]
+       )
+
+        dnl   Make sure that X libs are included in tests.
+        dnl   Apple puts libpng in the X11 distribution.
+        dnl   Oddly gcc and cpp (in Snow Leopard) know how to find X11 include
+        dnl   files without being told.  This means that the standard
+        dnl   configure test does not both adding any include directories for
+        dnl   X. This is unfortunate because PNG is sitting there but does not
+        dnl   have the magical <X11/...> prefix to give cpp a hint.  We add
+        dnl   the path here on the basis that it won't hurt anyone else.
+        X_LIBS="$X_LIBS $X_PRE_LIBS -lX11 $X_EXTRA_LIBS"
+        LIBS="$LIBS $X_LIBS"
+        X_CFLAGS="$X_CFLAGS -I/usr/X11/include"
+        CPPFLAGS="$CPPFLAGS $X_CFLAGS"
       ]
 );
+
+AM_CONDITIONAL([COMPILE_PGDISP],[test "x$COMPILE_PGDISP" = xyes])
 
 AM_CONDITIONAL([HAVE_X_WINDOW_SYSTEM],[test "x$no_x" = x])
 
