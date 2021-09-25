@@ -1,3 +1,14 @@
+5.2.2-6
+
+  [BUILD FIXES]
+
+    * Add -std=legacy to AM_FFLAGS if GNU Fortran is used, as more modern
+      versions of Fortran won't compile the code.
+
+    * Check that the requisite X headers are installed if X drivers
+      are requested. If not, warn and don't try to compile the
+      affected drivers.
+
 5.2.2-5
 
   [BUILD FIXES]
