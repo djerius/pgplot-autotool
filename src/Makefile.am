@@ -51,6 +51,8 @@ pgvsiz.f pgvstand.f pgvstd.f pgvw.f pgwedg.f pgwindow.f pgwnad.f
 
 PRIVATE_INCLUDES = grpckg1.inc  pgplot.inc
 
+AM_FFLAGS = @AM_FFLAGS@
+
 grgfil.f.sed :
 	echo '/[@]pkg_libexecdir[@]/ c \' > $@ ; \
 	echo "'$(libexecdir)/$(PACKAGE)/'" \

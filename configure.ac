@@ -32,6 +32,12 @@ AS_IF([test "x$F77" = x ],
       ]
 )
 
+dnl    If we're using GNU Fortran, use the 'legacy' standard, as this
+dnl    code will not compile under anything more modern.
+AS_IF( [test "$ac_cv_f77_compiler_gnu" = "yes" ],
+       [AC_SUBST([AM_FFLAGS],[-std=legacy] ) ] );
+
+
 dnl     Checks for libraries
 
 dnl     On Ubuntu 13.04, need to explicitly pull in libm to resolve

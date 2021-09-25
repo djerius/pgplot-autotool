@@ -24,3 +24,4 @@ C_ROUTINES = grdate.c  grfileio.c  grgetc.c  grgmem.c  grtermio.c  gruser.c
 
 AM_CFLAGS = -DPG_PPU
 
+AM_FFLAGS = @AM_FFLAGS@

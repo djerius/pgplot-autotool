@@ -41,6 +41,8 @@ txdriv.f epdriv.f godriv.f wsdriv.f vbdriv.f pkdriv.c
 
 AM_CFLAGS = -DPG_PPU
 
+AM_FFLAGS = @AM_FFLAGS@
+
 CLEANFILES = grexec.f
 
 EXTRA_DIST = makegrexec.pl
