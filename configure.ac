@@ -88,7 +88,9 @@ AS_IF([ test "x$no_x" = "x"],
            CPPFLAGS="$CPPFLAGS $X11_CFLAGS"
            PKG_CHECK_MODULES(
               [XT],
-              [xt],
+              dnl have sm and ice listed here so that contents of $X_PRE_LIBS
+              dnl can be found
+              [sm ice xt],
               [have_xt=yes
                PKG_CONFIG_REQUIRES="${PKG_CONFIG_REQUIRES}[,]xt"
                X_LIBS="$X_LIBS $XT_LIBS"
