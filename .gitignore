@@ -4,6 +4,7 @@ pgplot_link_adam
 .libs
 *.la
 *.lo
+*.o
 Makefile
 Makefile.in
 acinclude.m4
