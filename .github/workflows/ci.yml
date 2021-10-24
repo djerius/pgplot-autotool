@@ -33,10 +33,5 @@ jobs:
         run: |
           sh ./configure
       - name: Make
-        if: runner.os == 'Linux'
         run: |
           make
-      - name: Make
-        if: runner.os == 'macOS'
-        run: |
-          make LDFLAGS="$(pkg-config --libs --static libpng xt)"
