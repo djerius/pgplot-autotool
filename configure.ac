@@ -82,10 +82,6 @@ AS_IF([ test "x$no_x" = "x"],
           [x11],
           [have_x11=yes
            PKG_CONFIG_REQUIRES="${PKG_CONFIG_REQUIRES}[,]x11"
-           X_LIBS="$X_LIBS $X11_LIBS"
-           LIBS="$LIBS $X11_LIBS"
-           X_CFLAGS="$X_CFLAGS $X11_CFLAGS"
-           CPPFLAGS="$CPPFLAGS $X11_CFLAGS"
            PKG_CHECK_MODULES(
               [XT],
               dnl have sm and ice listed here so that contents of $X_PRE_LIBS
@@ -93,10 +89,18 @@ AS_IF([ test "x$no_x" = "x"],
               [sm ice xt],
               [have_xt=yes
                PKG_CONFIG_REQUIRES="${PKG_CONFIG_REQUIRES}[,]xt"
+               dnl XT_* has xt + x11 because xt depends on x11
                X_LIBS="$X_LIBS $XT_LIBS"
                LIBS="$LIBS $XT_LIBS"
                X_CFLAGS="$X_CFLAGS $XT_CFLAGS"
                CPPFLAGS="$CPPFLAGS $XT_CFLAGS"
+              ],
+              [
+               dnl only have x11
+               X_LIBS="$X_LIBS $X11_LIBS"
+               LIBS="$LIBS $X11_LIBS"
+               X_CFLAGS="$X_CFLAGS $X11_CFLAGS"
+               CPPFLAGS="$CPPFLAGS $X11_CFLAGS"
               ]
            )
           ]
