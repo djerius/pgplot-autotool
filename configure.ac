@@ -73,6 +73,35 @@ dnl   automatically (see the automake manual's FAQ for justification).
 drivers="exdriv.lo pgdriv.lo cadriv.lo hgdriv.lo lxdriv.lo  vtdriv.lo hidriv.lo psdriv.lo ttdriv.lo cwdriv.lo gldriv.lo nedriv.lo hpdriv.lo lsdriv.lo nudriv.lo qmdriv.lo vadriv.lo cgdriv.lo nexsup.lo rvdriv.lo xmdriv.lo tkdriv.lo pkdriv.lo xadriv.lo"
 
 dnl   Not all platforms have X
+have_x11=no
+have_xt=no
+AS_IF([ test "x$no_x" = "x"],
+      [
+       PKG_CHECK_MODULES(
+          [X11],
+          [x11],
+          [have_x11=yes
+           PKG_CONFIG_REQUIRES="${PKG_CONFIG_REQUIRES}[,]x11"
+           X_LIBS="$X_LIBS $X11_LIBS"
+           LIBS="$LIBS $X11_LIBS"
+           X_CFLAGS="$X_CFLAGS $X11_CFLAGS"
+           CPPFLAGS="$CPPFLAGS $X11_CFLAGS"
+           PKG_CHECK_MODULES(
+              [XT],
+              [xt],
+              [have_xt=yes
+               PKG_CONFIG_REQUIRES="${PKG_CONFIG_REQUIRES}[,]xt"
+               X_LIBS="$X_LIBS $XT_LIBS"
+               LIBS="$LIBS $XT_LIBS"
+               X_CFLAGS="$X_CFLAGS $XT_CFLAGS"
+               CPPFLAGS="$CPPFLAGS $XT_CFLAGS"
+              ]
+           )
+          ]
+       )
+      ]
+)
+
 COMPILE_PGDISP=no
 AS_IF([ test "x$no_x" = "x"],
       [
