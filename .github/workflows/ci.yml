@@ -1,14 +1,47 @@
 name: build
-
 on:
   push:
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-  
+    branches:
+      - '*'
+    tags-ignore:
+      - '*'
+  pull_request:
 jobs:
-  DummyJob:
-    runs-on: ubuntu-latest
+  ci:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest,macos-latest]
     steps:
-      - name: DummyStep
+      - uses: actions/checkout@v2
+      - name: Pre-reqs (apt)
+        if: runner.os == 'Linux'
         run: |
-          date
+          sudo apt-get -y update && sudo apt-get install build-essential \
+            libpng-dev zlib1g-dev libx11-dev libxaw7-dev libxt-dev x11proto-core-dev libgif-dev
+      - name: Pre-reqs (homebrew)
+        if: runner.os == 'macOS'
+        run: |
+          brew reinstall gfortran
+          brew install automake \
+            libpng \
+            libxt
+      - name: Bootstrap
+        shell: bash
+        run: |
+          sh ./bootstrap
+      - name: Configure
+        shell: bash
+        run: |
+          sh ./configure
+      - name: Make
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          make
+      - name: Make
+        if: runner.os == 'macOS'
+        shell: bash
+        run: |
+          make LDFLAGS="$(pkg-config --libs --static libpng xt)"
