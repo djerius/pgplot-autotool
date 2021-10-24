@@ -35,3 +35,6 @@ jobs:
       - name: Make
         run: |
           make
+      - name: Show pkg-config files
+        run: |
+          head -n100 *.pc
