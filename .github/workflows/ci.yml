@@ -1,0 +1,14 @@
+name: build
+
+on:
+  push:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  
+jobs:
+  DummyJob:
+    runs-on: ubuntu-latest
+    steps:
+      - name: DummyStep
+        run: |
+          date
