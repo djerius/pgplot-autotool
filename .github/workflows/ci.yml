@@ -1,8 +1,6 @@
 name: build
 on:
   push:
-    branches:
-      - '*'
     tags-ignore:
       - '*'
   pull_request:
@@ -28,20 +26,16 @@ jobs:
             libpng \
             libxt
       - name: Bootstrap
-        shell: bash
         run: |
           sh ./bootstrap
       - name: Configure
-        shell: bash
         run: |
           sh ./configure
       - name: Make
         if: runner.os == 'Linux'
-        shell: bash
         run: |
           make
       - name: Make
         if: runner.os == 'macOS'
-        shell: bash
         run: |
           make LDFLAGS="$(pkg-config --libs --static libpng xt)"
