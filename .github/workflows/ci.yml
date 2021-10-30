@@ -12,6 +12,10 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest,macos-latest]
+        # without-x:
+        # - false: automatically configure X11
+        # - true: disable building with X11 (use --without-x option)
+        without-x: [false,true]
     steps:
       - uses: actions/checkout@v2
       - name: Pre-reqs (apt)
@@ -30,8 +34,9 @@ jobs:
         run: |
           sh ./bootstrap
       - name: Configure
-        run: |
+        run:
           sh ./configure
+            ${{ fromJSON('[ "", "--without-x" ]')[ matrix.without-x ] }}
       - name: Make
         run: |
           make
