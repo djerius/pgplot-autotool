@@ -75,12 +75,13 @@ drivers="exdriv.lo pgdriv.lo cadriv.lo hgdriv.lo lxdriv.lo  vtdriv.lo hidriv.lo 
 dnl   Not all platforms have X
 have_x11=no
 have_xt=no
-AS_IF([ test "x$no_x" = "x"],
+AS_IF([ test "$with_x" != no ],
       [
        PKG_CHECK_MODULES(
           [X11],
           [x11],
           [have_x11=yes
+           no_x=""
            PKG_CONFIG_REQUIRES="${PKG_CONFIG_REQUIRES}[,]x11"
            PKG_CHECK_MODULES(
               [XT],
