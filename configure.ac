@@ -75,7 +75,22 @@ drivers="exdriv.lo pgdriv.lo cadriv.lo hgdriv.lo lxdriv.lo  vtdriv.lo hidriv.lo 
 dnl   Not all platforms have X
 have_x11=no
 have_xt=no
-AS_IF([ test "$with_x" != no ],
+dnl	+--------+------------------------+----------+----------+--------+-----+
+dnl	|Variable|      AC_PATH_XTRA      |-without-x|-with-x=no|-with-x | --x |
+dnl	+--------+------------+-----------+----------+----------+--------+-----+
+dnl	|        |  success   |  failure  |          |          |        |     |
+dnl	+--------+------------+-----------+----------+----------+--------+-----+
+dnl	|  no_x  |     ''     |   'yes'   |  'yes'   |          |        |     |
+dnl	+--------+------------+-----------+----------+----------+--------+-----+
+dnl	| with_x |            |           |   'no'   |   'no'   | 'yes'  |'yes'|
+dnl	+--------+------------+-----------+----------+----------+--------+-----+
+dnl	Notes:
+dnl     1) AC_PATH_XTRA runs first and modifies no_x in the presence of -without-x
+dnl     2) If --with-x is not specified, AC_PATH_XTRA assumes with_x='yes'
+dnl
+dnl     Check pkg-config if the user did not forbid X and AC_PATH_XTRA failed to find it
+AS_IF([ test "x$with_x" != xno -a "x$no_x" != x ],
+
       [
        PKG_CHECK_MODULES(
           [X11],
