@@ -16,6 +16,12 @@ jobs:
         # - false: automatically configure X11
         # - true: disable building with X11 (use --without-x option)
         without-x: [false,true]
+        # used for macos runner
+        homebrew-unlink: [ false ]
+        include:
+          - os: macos-latest
+            without-x: false
+            homebrew-unlink: true
     steps:
       - uses: actions/checkout@v2
       - name: Pre-reqs (apt)
@@ -30,7 +36,18 @@ jobs:
           brew install automake \
             libpng \
             libxt
-          echo "LIBRARY_PATH=$(brew --prefix)/lib${LIBRARY_PATH:+:${LIBRARY_PATH}}" >> $GITHUB_ENV
+      - name: Prepare for linking with Homebrew
+        if: runner.os == 'macOS'
+        run: |
+          if ! ${{ matrix.homebrew-unlink }}; then
+            echo "Using Homebrew prefix /usr/local/lib for linking via LIBRARY_PATH in order to keep the default search path."
+            echo "LIBRARY_PATH=$(brew --prefix)/lib${LIBRARY_PATH:+:${LIBRARY_PATH}}" >> $GITHUB_ENV
+          else
+            echo "Unlinking libraries from Homebrew prefix so that pkg-config must be used."
+            brew unlink \
+              libpng \
+              libxt libice libsm libx11
+          fi
       - name: Bootstrap
         run: |
           sh ./bootstrap
