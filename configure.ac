@@ -119,6 +119,9 @@ AS_IF([ test "x$with_x" != xno -a "x$no_x" != x ],
                CPPFLAGS="$CPPFLAGS $X11_CFLAGS"
               ]
            )
+          ],
+          [
+           dnl no x11 via pkg-config either
           ]
        )
       ]
