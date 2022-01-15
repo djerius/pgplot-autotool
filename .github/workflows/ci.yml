@@ -44,9 +44,12 @@ jobs:
             echo "LIBRARY_PATH=$(brew --prefix)/lib${LIBRARY_PATH:+:${LIBRARY_PATH}}" >> $GITHUB_ENV
           else
             echo "Unlinking libraries from Homebrew prefix so that pkg-config must be used."
-            brew unlink \
-              libpng \
-              libxt libice libsm libx11
+            FORMULAE_TO_UNLINK="libpng libxt libice libsm libx11"
+            brew unlink $FORMULAE_TO_UNLINK
+            PKG_CONFIG_PATH_FOR_FORMULAE=$( brew ls $FORMULAE_TO_UNLINK \
+              | grep /pkgconfig/ | xargs -n1 dirname \
+              | sort -u | tr '\n' ':' | sed 's/:$//' )
+            echo "PKG_CONFIG_PATH=$PKG_CONFIG_PATH_FOR_FORMULAE${PKG_CONFIG_PATH:+:${PKG_CONFIG_PATH}}" >> $GITHUB_ENV
           fi
       - name: Bootstrap
         run: |
