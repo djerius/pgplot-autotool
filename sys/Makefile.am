@@ -20,7 +20,11 @@ F_ROUTINES = grflun.f grgenv.f grglun.f grgmsg.f grlgtr.f \
 	     groptx.f grsy00.f grtrml.f grtter.f
 
 
-C_ROUTINES = grdate.c  grfileio.c  grgetc.c  grgmem.c  grtermio.c  gruser.c
+C_ROUTINES = grdate.c  grfileio.c  grgmem.c  gruser.c
+
+if HAVE_TERMIOS
+C_ROUTINES += grgetc.c grtermio.c
+endif
 
 AM_CFLAGS = -DPG_PPU
 
