@@ -88,9 +88,9 @@ jobs:
       - name: Configure
         run: |
           sh ./configure
-      - name: Show config.status
+      - name: Show fonts/Makefile
         run: |
-          cat config.status
+          cat fonts/Makefile
       - name: Make
         run: |
           make
