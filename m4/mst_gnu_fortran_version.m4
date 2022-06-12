@@ -64,7 +64,7 @@ AC_DEFUN([MST_GNU_FORTRAN_VERSION],
   	    [
   	      AS_VAR_SET(
   		    [mst_gnu_fort_version_cv],
-  		    [`AS_ECHO(["$_mst_gnu_fort_version"]) | $SED -e "1s/.*$mst_gfv_pattern.*/\1.\2.\3/" -e '1!d'`]dnl
+  		    [`AS_ECHO(["$_mst_gnu_fort_version"]) | $SED -e "1s/.*@<:@@<:@:blank:@:>@@:>@$mst_gfv_pattern.*/\1.\2.\3/" -e '1!d'`]dnl
   	      )
   	    ],
 	    [
