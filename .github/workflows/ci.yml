@@ -64,3 +64,33 @@ jobs:
       - name: Show pkg-config files
         run: |
           head -n100 *.pc
+  ci-msys2:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up build
+        uses: msys2/setup-msys2@v2
+        with:
+          update: true
+          install: >-
+            base-devel
+            autotools
+            mingw-w64-x86_64-toolchain
+            mingw-w64-x86_64-libpng
+      - name: Bootstrap
+        run: |
+          sh ./bootstrap
+      - name: Configure
+        run: |
+          sh ./configure
+      - name: Make
+        run: |
+          make
+      - name: Show pkg-config files
+        run: |
+          head -n100 *.pc

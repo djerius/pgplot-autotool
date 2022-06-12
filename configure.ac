@@ -48,7 +48,9 @@ AC_CHECK_LIB(m, sincos)
 dnl     Checks for header files.
 AC_HEADER_STDC
 AC_PATH_XTRA
-AC_CHECK_HEADERS([fcntl.h limits.h memory.h netdb.h netinet/in.h stddef.h sys/file.h sys/socket.h sys/systeminfo.h sys/time.h termios.h unistd.h values.h])
+AC_CHECK_HEADERS([fcntl.h limits.h memory.h netdb.h netinet/in.h stddef.h sys/file.h sys/socket.h sys/systeminfo.h sys/time.h unistd.h values.h])
+
+AC_SYS_POSIX_TERMIOS
 
 dnl    get the flags required to link other languages against fortran
 dnl    using their compilers, not fortran
@@ -70,7 +72,7 @@ dnl   These are the driver files that will actually be built.
 dnl   In true autoconf style, we do not attempt to generate this list
 dnl   automatically (see the automake manual's FAQ for justification).
 
-drivers="exdriv.lo pgdriv.lo cadriv.lo hgdriv.lo lxdriv.lo  vtdriv.lo hidriv.lo psdriv.lo ttdriv.lo cwdriv.lo gldriv.lo nedriv.lo hpdriv.lo lsdriv.lo nudriv.lo qmdriv.lo vadriv.lo cgdriv.lo nexsup.lo rvdriv.lo xmdriv.lo tkdriv.lo pkdriv.lo xadriv.lo"
+drivers="exdriv.lo pgdriv.lo cadriv.lo hgdriv.lo lxdriv.lo  hidriv.lo psdriv.lo cwdriv.lo gldriv.lo hpdriv.lo lsdriv.lo nudriv.lo qmdriv.lo vadriv.lo cgdriv.lo rvdriv.lo xmdriv.lo tkdriv.lo pkdriv.lo xadriv.lo"
 
 dnl   Not all platforms have X
 have_x11=no
@@ -197,6 +199,24 @@ AS_IF([test "$mst_prog_gnu_f77_version" != '0.0.0' && test "$mst_prog_gnu_f77_ve
 AC_SUBST([PKG_CONFIG_LIBS])
 AC_SUBST([PKG_CONFIG_CFLAGS])
 
+dnl   drivers ttdriv and vtdriv require termios; only include them if
+dnl   it's available.
+
+AM_CONDITIONAL([HAVE_TERMIOS], [test "$ac_cv_sys_posix_termios" = "yes" ])
+
+AS_IF( [test "$ac_cv_sys_posix_termios" = "yes" ],
+       [
+         drivers="$drivers ttdriv.lo vtdriv.lo"
+       ]
+)
+
+dnl   drivers nexup and nedriv require sys/socket.h
+AS_IF([test "$ac_cv_header_sys_socket_h" = "yes"],
+      [
+         drivers="$drivers nexsup.lo nedriv.lo"
+      ]
+)
+
 
 
 dnl   Add the png driver if the PNG header and library are available.
@@ -239,6 +259,8 @@ AS_IF([test $have_png = yes],
 	CPPFLAGS="$CPPFLAGS $PNG_CFLAGS"
       ]
 )
+
+
 
 
 dnl   clean up pkg-config requires line
