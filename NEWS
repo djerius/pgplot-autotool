@@ -1,3 +1,13 @@
+5.2.2-7
+
+  [BUILD FIXES]
+
+    * now builds on Windows (msys2). zmughal++
+
+  [CI]
+
+    * GitHub actions set up to test on Ubuntu, MacOS, Windows (msys). zmughal++
+
 5.2.2-6
 
   [BUILD FIXES]
