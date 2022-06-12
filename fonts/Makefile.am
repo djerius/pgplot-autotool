@@ -10,9 +10,9 @@ pgpack_SOURCES = pgpack.f
 
 pkg_libexecdir = $(libexecdir)/$(PACKAGE)
 
-grfont.dat: grfont.txt pgpack
+grfont.dat: grfont.txt pgpack$(EXEEXT)
 	-rm -f grfont.dat
-	./pgpack < $(srcdir)/grfont.txt
+	./pgpack$(EXEEXT) < $(srcdir)/grfont.txt
 
 install-exec-hook : grfont.dat
 	$(MKDIR_P) $(DESTDIR)$(pkg_libexecdir)
