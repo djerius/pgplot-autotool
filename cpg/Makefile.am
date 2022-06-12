@@ -16,9 +16,9 @@ PUBLIC_INCLUDES = cpgplot.h
 
 cpgplot.c cpgplot.h: pgbind_prototypes
 
-pgbind_prototypes : pgbind
+pgbind_prototypes : pgbind$(EXEEXT)
 	grep -h '^C%' $(top_srcdir)/src/pg*.f > ./pgbind_prototypes
-	./pgbind bsd -h -w pgbind_prototypes
+	./pgbind$(EXEEXT) bsd -h -w pgbind_prototypes
 
 # Build the actual library
 
