@@ -2,7 +2,8 @@
 
 ACLOCAL_AMFLAGS = -I m4
 
-SUBDIRS = src sys drivers fonts cpg pgdispd examples
+# SUBDIRS = src sys drivers fonts cpg pgdispd examples
+SUBDIRS = fonts
 
 # rgb.txt is architecture independent, so usually would be installed
 # into $pkgdatadir, but PGPLOT prefers a single prefix for both
