@@ -31,9 +31,9 @@ grexec.f: $(BUILT_DRIVER_ROUTINES) makegrexec.pl
 # These are all the driver routines, even if they do not build
 
 DRIVER_ROUTINES = exdriv.f pgdriv.f cadriv.f hgdriv.f lxdriv.f		\
-ppdriv.f.in gidriv.f hidriv.f psdriv.f cwdriv.f	\
-gldriv.f wddriv.f.in hpdriv.f lsdriv.f nudriv.f qmdriv.f	\
-vadriv.f cgdriv.c rvdriv.c x2driv.c xmdriv.c figdisp_comm.c	\
+ppdriv.f.in vtdriv.f gidriv.f hidriv.f psdriv.f ttdriv.f cwdriv.f	\
+gldriv.f nedriv.f wddriv.f.in hpdriv.f lsdriv.f nudriv.f qmdriv.f	\
+vadriv.f cgdriv.c nexsup.c rvdriv.c x2driv.c xmdriv.c figdisp_comm.c	\
 pgxwin.c pndriv.c tkdriv.c xadriv.c xwdriv.c bcdriv.f gvdriv.f		\
 ladriv.f lvdriv.f tfdriv.f xedriv.f gcdriv.f todriv.f zedriv.f		\
 ccdriv.f ljdriv.f lhdriv.f mfdriv.f hjdriv.f lndriv.f pxdriv.f		\
