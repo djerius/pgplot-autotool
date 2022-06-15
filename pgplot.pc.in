@@ -8,5 +8,5 @@ Name: PGplot
 Description: Fortran 2D Graphics library
 Version: ${version}
 Requires: @PKG_CONFIG_REQUIRES@
-Libs: -L${libdir} -lpgplot @PKG_CONFIG_LIBS@
+Libs: -L${libdir} -lpgplot @FLIBS@ @PKG_CONFIG_LIBS@
 Cflags: -I${includedir}

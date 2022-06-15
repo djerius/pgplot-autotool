@@ -1,3 +1,11 @@
+5.2.2-8
+
+  [BUG FIX]
+
+    * pkg-config files specified out-of-order Fortran libraries which
+      cause links to fail on systems which perform single pass symbol
+      resolution.
+
 5.2.2-7
 
   [BUILD FIXES]
