@@ -11,6 +11,8 @@
   [BUILD FIXES]
 
     * now builds on Windows (msys2). zmughal++
+    * add support for finding X flags using pkg-config which helps
+      with some installations of macOS. zmughal++
 
   [CI]
 
