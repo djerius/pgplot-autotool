@@ -39,9 +39,7 @@ static int words_bigendian = 0;     /* Machine type (1 = Bigendian) */
 #define _POSIX_SOURCE
 #endif
 
-#ifdef _WIN32
-#define CGDRIV CGDRIV
-#elif defined(PG_PPU)
+#if defined(PG_PPU)
 #define CGDRIV cgdriv_
 #else
 #define CGDRIV cgdriv
@@ -407,32 +405,12 @@ static void scaling_mode(FILE *pt,float scale)
     return;
 }
 
-#ifdef _WIN32
-void __stdcall CGDRIV(ifunc, rbuf, nbuf, chr, len, lchr, mode)
-    int   *ifunc, *nbuf, *lchr, *mode;
-    unsigned len;
-    float rbuf[];
-    char  *chr;
-{
-#elif defined(VMS)
-void CGDRIV(ifunc, rbuf, nbuf, chrdsc, lchr, mode)
-     int *ifunc;
-     float rbuf[];
-     int *nbuf;
-     struct dsc$descriptor_s *chrdsc; /* VMS FORTRAN string descriptor */
-     int *lchr;
-     int *mode;
-{
-    int len = chrdsc->dsc$w_length;
-    char *chr = chrdsc->dsc$a_pointer;
-#else
 void CGDRIV(ifunc, rbuf, nbuf, chr, lchr, mode, len)
     int *ifunc, *nbuf, *lchr, *mode;
     int len;
     float rbuf[];
     char *chr;
 {
-#endif
 
     static FILE *pt;
     static COLOUR colours[256];
