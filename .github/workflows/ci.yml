@@ -4,64 +4,75 @@ on:
   pull_request:
   workflow_dispatch:
 jobs:
-  ci:
-    runs-on: ${{ matrix.os }}
+  ci-macos:
+    runs-on: macos-latest
+    defaults:
+      run:
+        shell: bash
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
-        os: [ubuntu-latest,macos-latest]
         # without-x:
         # - false: automatically configure X11
         # - true: disable building with X11 (use --without-x option)
         without-x: [false,true]
-        # used for macos runner
-        homebrew-unlink: [ false ]
-        include:
-          - os: macos-latest
-            without-x: false
-            homebrew-unlink: true
+        # resolving library paths on macos runner
+        homebrew: [ 'auto', 'ldflags', 'unlink' ]
     steps:
       - uses: actions/checkout@v2
-      - name: Pre-reqs (apt)
-        if: runner.os == 'Linux'
-        run: |
-          sudo apt-get -y update && sudo apt-get install build-essential \
-            libpng-dev zlib1g-dev libx11-dev libxaw7-dev libxt-dev x11proto-core-dev libgif-dev
       - name: Pre-reqs (homebrew)
-        if: runner.os == 'macOS'
         run: |
           brew reinstall gfortran
           brew install automake \
             libpng \
             libxt
       - name: Prepare for linking with Homebrew
-        if: runner.os == 'macOS'
         run: |
-          if ! ${{ matrix.homebrew-unlink }}; then
-            echo "Using Homebrew prefix /usr/local/lib for linking via LIBRARY_PATH in order to keep the default search path."
-            echo "LIBRARY_PATH=$(brew --prefix)/lib${LIBRARY_PATH:+:${LIBRARY_PATH}}" >> $GITHUB_ENV
-          else
-            echo "Unlinking libraries from Homebrew prefix so that pkg-config must be used."
-            FORMULAE_TO_UNLINK="libpng libxt libice libsm libx11"
-            brew unlink $FORMULAE_TO_UNLINK
-            PKG_CONFIG_PATH_FOR_FORMULAE=$( brew ls $FORMULAE_TO_UNLINK \
-              | grep /pkgconfig/ | xargs -n1 dirname \
-              | sort -u | tr '\n' ':' | sed 's/:$//' )
-            echo "PKG_CONFIG_PATH=$PKG_CONFIG_PATH_FOR_FORMULAE${PKG_CONFIG_PATH:+:${PKG_CONFIG_PATH}}" >> $GITHUB_ENV
-          fi
-      - name: Bootstrap
+          case ${{ matrix.homebrew }} in
+            ldflags )
+              LDFLAGS=-L$(brew --prefix)/lib
+              echo "Setting LDFLAGS=$LDFLAGS to find homebrew's libs."
+              echo "LDFLAGS=$LDFLAGS" >> $GITHUB_ENV
+              echo "CONFIGURE_ARGS=--without-brew" >> $GITHUB_ENV
+              ;;
+            unlink )          
+              echo "Unlinking libraries from Homebrew prefix so that pkg-config must be used."
+              FORMULAE_TO_UNLINK="libpng libxt libice libsm libx11"
+              brew unlink $FORMULAE_TO_UNLINK
+              PKG_CONFIG_PATH_FOR_FORMULAE=$( brew ls $FORMULAE_TO_UNLINK \
+                | grep /pkgconfig/ | xargs -n1 dirname \
+                | sort -u | tr '\n' ':' | sed 's/:$//' )
+              echo "PKG_CONFIG_PATH=$PKG_CONFIG_PATH_FOR_FORMULAE${PKG_CONFIG_PATH:+:${PKG_CONFIG_PATH}}" >> $GITHUB_ENV
+              echo "CONFIGURE_ARGS=--without-brew" >> $GITHUB_ENV
+              ;;
+            * )
+              ;;
+          esac
+      - uses: ./.github/actions/build-pgplot
+        if: matrix.without-x
+        with:
+          configure-args: --without-x
+          run-shell: 'bash'
+      - uses: ./.github/actions/build-pgplot
+        if: ${{ !matrix.without-x }}
+        with:
+          run-shell: 'bash'
+  ci-linux:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v2
+      - name: Pre-reqs (apt)
         run: |
-          sh ./bootstrap
-      - name: Configure
-        run:
-          sh ./configure
-            ${{ fromJSON('[ "", "--without-x" ]')[ matrix.without-x ] }}
-      - name: Make
-        run: |
-          make
-      - name: Show pkg-config files
-        run: |
-          head -n100 *.pc
+          sudo apt-get -y update && sudo apt-get install build-essential \
+            libpng-dev zlib1g-dev libx11-dev libxaw7-dev libxt-dev x11proto-core-dev libgif-dev
+      - uses: ./.github/actions/build-pgplot
+        with:
+          run-shell: 'bash'
   ci-msys2:
     runs-on: windows-latest
     strategy:
@@ -80,15 +91,6 @@ jobs:
             autotools
             mingw-w64-x86_64-toolchain
             mingw-w64-x86_64-libpng
-      - name: Bootstrap
-        run: |
-          sh ./bootstrap
-      - name: Configure
-        run: |
-          sh ./configure
-      - name: Make
-        run: |
-          make
-      - name: Show pkg-config files
-        run: |
-          head -n100 *.pc
+      - uses: ./.github/actions/build-pgplot
+        with:
+          run-shell: 'msys2 {0}'

@@ -1,0 +1,28 @@
+name: 'Build PGPLOT'
+description: 'bootstrap, configure, make, test, PGPLOT'
+inputs:
+  configure-args:
+    description: 'configure arguments'
+    required: false
+  run-shell:
+    description: 'shell to run'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Bootstrap
+      shell: ${{ inputs.run-shell }}
+      run: |
+        sh ./bootstrap
+    - name: Configure
+      shell: ${{ inputs.run-shell }}
+      run: |
+        sh ./configure ${{ inputs.configure-args }} $CONFIGURE_ARGS
+    - name: Make
+      shell: ${{ inputs.run-shell }}
+      run: |
+        make
+    - name: Show pkg-config files
+      shell: ${{ inputs.run-shell }}
+      run: |
+        head -n100 *.pc

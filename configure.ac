@@ -26,6 +26,25 @@ AC_CHECK_PROG([have_fold],[fold],[yes],[no])
 AS_IF([test $have_fold = "no"],
       [AC_MSG_ERROR([fold program is required; aborting])])
 
+dnl   if homebrew was installed, ensure that the homebrew lib
+dnl   directory is in the library search path.  for the default
+dnl   /usr/local brew prefix, if using clang, the searches for brew
+dnl   installed libraries (e.g. the X libraries) will succeed, as
+dnl   clang will search /usr/local/lib for the libraries.  However,
+dnl   the brew installed compilers won't, so e.g. gfortran will be
+dnl   unable to find the brew installed libraries
+
+AC_ARG_WITH([brew],[AS_HELP_STRING([--without-brew],
+                        [don't search homebrew's library directories if it is installed])],
+                        [],
+                        [with_brew=yes])
+
+AS_IF([test "x$with_brew" != xno],
+      [ AC_PATH_PROG([BREW],[brew])
+      AS_IF([test "x$BREW" = x],[],
+            [LDFLAGS="$LDFLAGS -L`$BREW --prefix`/lib"])
+            ] )
+
 dnl    Yes Virginia, there are boxes without Fortran. Drag them back to the '70s
 AS_IF([test "x$F77" = x ],
       [AC_MSG_ERROR([No Fortran compiler found; Cannot build without one. Aborting])
