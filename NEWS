@@ -7,6 +7,10 @@
       clang does, so the latter could find them, but the former couldn't.
 
 
+    * Linking is failing on some Windows systems due to mismatch between
+      Fortran and C naming conventions.  Attempted fix applied.
+
+
 5.2.2-8
 
   [BUG FIX]
@@ -66,12 +70,12 @@
 
     * First release by Diab Jerius after extraction from Starlink
     * All kudos to those who did the real work :
-	  - Tim Jenness
-	  - Peter W. Draper
-	  - David Berry
-	  - Russel Kackley
-	  - Malcolm J. Currie
-	  - Norman Gray
-	  - Brad Cavanagh
-	  - Mark Taylor
-	  - Alasdair Allan
+          - Tim Jenness
+          - Peter W. Draper
+          - David Berry
+          - Russel Kackley
+          - Malcolm J. Currie
+          - Norman Gray
+          - Brad Cavanagh
+          - Mark Taylor
+          - Alasdair Allan
