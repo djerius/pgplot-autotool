@@ -1,3 +1,12 @@
+5.2.2-9
+
+  [BUG FIX]
+
+    * On MacOS with homebrew, the homebrew provided gfortran does not
+      search the homebrew lib dirs for the X11 libraries, while the system
+      clang does, so the latter could find them, but the former couldn't.
+
+
 5.2.2-8
 
   [BUG FIX]
